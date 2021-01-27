@@ -1,0 +1,46 @@
+#!/usr/bin/env python3
+
+## --- latex template system --- ##
+
+# import modules
+import os 
+import sys
+import argparse
+
+# template locations
+file_location = os.popen('pwd').read()
+cp_mla = 'cp ~/doc/latex_templates/mla.tex'
+cp_notes = 'cp ~/doc/latex_templates/notes.tex'
+cp_document = 'cp ~/doc/latex_templates/document.tex'
+
+# defining input arguments
+ap = argparse.ArgumentParser()
+ap.add_argument('-n', '--name', required=True, help='File Name')
+ap.add_argument('-t', '--type', required=True, help='mla, notes, document')
+args = vars(ap.parse_args())
+file_name = args['name']
+file_type = args['type']
+
+# choice defenition 
+def choice(fileName,fileType):
+    fileType = file_type
+    fileName = file_name
+
+    if (fileType == 'mla'):
+        os.system(cp_mla + ' ' + file_location)
+        file_name_alt = fileName + '.tex'
+        os.system('mv mla.tex' + ' ' + file_name_alt)
+        os.system('$EDITOR ' + file_name_alt)
+    elif (fileType == 'notes'):
+        os.system(cp_notes + ' ' + file_location)
+        file_name_alt = fileName + '.tex'
+        os.system('mv notes.tex' + ' ' + file_name_alt)
+        os.system('$EDITOR ' + file_name_alt)
+    elif (fileType == 'document'):
+        os.system(cp_document + ' ' + file_location)
+        file_name_alt = fileName + '.tex'
+        os.system('mv document.tex' + ' ' + file_name_alt)
+        os.system('$EDITOR ' + file_name_alt)
+    else:
+        print('Please give a valid file type!')
+choice(file_name, file_type)
