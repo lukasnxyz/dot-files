@@ -2,7 +2,7 @@
 #include <X11/XF86keysym.h>
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
+static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayspacing = 2;   /* systray spacing */
@@ -13,10 +13,10 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "monospace:size=14" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#1c1c1c";
+static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#424142";
+static const char col_cyan[]        = "#005577";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -38,13 +38,13 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
-	{ "[M]",      monocle },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "[M]",      monocle },
 };
 
 /* key definitions */
@@ -58,9 +58,6 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-/* commands */
-//static const char *screenshot[] = { "scrot", NULL };
-
 static Key keys[] = {
     /* modifier                     key        function        argument */
 
@@ -71,12 +68,12 @@ static Key keys[] = {
     { MODKEY,                       XK_w,      spawn,          SHCMD("$BROWSER") },
     { MODKEY,                       XK_a,      spawn,          SHCMD("$TERMINAL -e pulsemixer") },
     { MODKEY,                       XK_f,      spawn,          SHCMD("$TERMINAL -e vifm") },
-    { MODKEY,                       XK_c,      spawn,          SHCMD("$TERMINAL -e cmus") },
-    { MODKEY,                      XK_F2,      spawn,          SHCMD("scrot -e 'mv $f ~/dl/'") },
+    { MODKEY,                      XK_F2,      spawn,          SHCMD("scrot -e 'mv $f ~/media/pictures/scrots/'") },
     { MODKEY,                       XK_i,      spawn,          SHCMD("display_prompt.sh") },
     { MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("xset r rate 300 50") },
     { MODKEY,                       XK_s,      spawn,          SHCMD("dwm_system.sh") },
     { MODKEY,                   XK_grave,      spawn,          SHCMD("clipmenu") },
+    { MODKEY|ShiftMask,         XK_grave,      spawn,          SHCMD("dmenu_emoji.sh") },
     { MODKEY,                      XK_F8,      spawn,          SHCMD("qrcode.sh") },
     { MODKEY,                      XK_F7,      spawn,          SHCMD("mpv /dev/video0") },
                             
@@ -128,8 +125,8 @@ static Key keys[] = {
 
     // toggle layouts
     { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-    { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} },
-    { MODKEY,                       XK_n,      setlayout,      {.v = &layouts[2]} },
+    { MODKEY,                       XK_n,      setlayout,      {.v = &layouts[1]} },
+    { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
 
     // toggle tags
     TAGKEYS(                        XK_1,                      0)
@@ -160,4 +157,3 @@ static Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-

@@ -1,0 +1,93 @@
+## --- alacritty configuration --- ##
+font:
+  bold:
+    family: monospace
+    style: Bold
+  bold_italic:
+    family: monospace
+    style: Bold Italic
+  italic:
+    family: monospace
+    style: Italic
+  normal:
+    family: monospace
+    style: Regular
+  size: 10
+
+window:
+  padding: 
+    x: 1
+    y: 1
+  title: alacritty
+  #dynamic_title: true
+  dynamic_padding: false
+  gtk_theme_variant: None
+
+scrolling: 
+  history: 10000
+
+#selection: 
+  #save_to_clipboard: true
+
+cursor:
+  style:
+    shape: Underline
+  blinking: Off
+
+mouse:
+  url:
+    launcher:
+      program: xdg-open
+      args: []
+
+colors:
+  search:
+    focused_match:
+      foreground: '#181818'
+      background: '#ab4642'
+    matches:
+      foreground: '#181818'
+      background: '#f4bf75'
+    bar:
+      foreground: '#d0d0d0'
+      background: '#262626'
+  primary:
+    background: '#000000'
+    foreground: '#efebd9'
+
+  normal:
+    black:   '#101010'
+    red:     '#d54e53'
+    green:   '#00ff00'
+    yellow:  '#e6c547'
+    blue:    '#7aa6da'
+    magenta: '#b972e9'
+    cyan:    '#70c0ba'
+    white:   '#fafafa'
+  bright:
+    black:   '#303030'
+    red:     '#ff3334'
+    green:   '#00ff00'
+    yellow:  '#e7c547'
+    blue:    '#7aa6da'
+    magenta: '#b77ee0'
+    cyan:    '#54ced6'
+    white:   '#ffffff'
+  dim:
+    black:   '#000000'
+    red:     '#8c3336'
+    green:   '#00ff00'
+    yellow:  '#97822e'
+    blue:    '#506d8f'
+    magenta: '#80638e'
+    cyan:    '#497e7a'
+    white:   '#9a9a9a'
+  cursor:
+    cursor: '#ffffff'
+
+key_bindings:
+  - {key: V, mods: Control|Shift, action: Paste}
+  - {key: C, mods: Control|Shift, action: Copy}
+  - {key: Equals, mods: Control, action: IncreaseFontSize}
+  - {key: Minus, mods: Control, action: DecreaseFontSize}
+  - {key: Key0, mods: Control, action: ResetFontSize}
