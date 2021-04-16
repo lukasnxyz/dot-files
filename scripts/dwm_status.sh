@@ -1,31 +1,31 @@
 #!/bin/sh
 # dwm status using xset root
 
-print_ip() {
+printIp() {
     echo "$(ip route get 8.8.8.8 2>/dev/null | grep -Eo 'src [0-9.]+' | grep -Eo '[0-9.]+')"
 }
 
-print_mem() {
+printMemory() {
     echo "(mem)$(($(grep -m1 'MemAvailable:' /proc/meminfo | awk '{print $2}') / 1024))"
 }
 
-print_disk() {
-    echo "(disk)$(df -h / | awk '{print $3}' | sed -n '1!p')"
+printDisk() {
+    echo "(hd)$(df -h / | awk '{print $3}' | sed -n '1!p')"
 }
 
 print_caps() {
     echo "Caps: $(xset -q | grep Caps | awk '{ print $4 }')"
 }
 
-print_time() {
+printTime() {
     echo "$(date +"%a, %D %I:%M:%S %p")"
 }
 
-print_backlight() {
+printBacklight() {
     echo "(bl)$(xbacklight -get | sed 's/\.[0-9]*//' | sed 's/$/%/')"
 }
 
-print_battery() {
+printBattery() {
     bat0=$(cat /sys/class/power_supply/BAT0/status)
     batstat0=$(echo "(i)$(cat /sys/class/power_supply/BAT0/capacity | sed 's/$/%/')")
     
@@ -34,16 +34,16 @@ print_battery() {
     
     case $bat0 in
         Full)
-            bat0=$(echo "T ")
+            bat0=$(echo "T")
             ;;
         Unknown)
-            bat0=$(echo "T ")
+            bat0=$(echo "T")
             ;;
         Discharging)
-            bat0=$(echo "D ")
+            bat0=$(echo "D")
             ;;
         Charging)
-            bat0=$(echo "C ")
+            bat0=$(echo "C")
             ;;
     esac
                                                                                                                     
@@ -65,14 +65,14 @@ print_battery() {
     echo "$batstat0$bat0$batstat1$bat1"
 }
 
-print_cputmp() {
+printCputmp() {
     test -f /sys/class/thermal/thermal_zone0/temp || return 0
     echo "(cpu)$(head -c 2 /sys/class/thermal/thermal_zone0/temp)C"
     #sensors | awk '/^Package id/ { print $4 }' | sed -e 's/+//' -e 's/C//' -e 's/°//' -e 's/.$//' -e 's/.$//' >> ~/tempsLog.txt
     #echo "(cpu)$(sensors | awk '/^Package id/ { print $4 }')"
 }
 
-print_volume() {
+printVolume() {
     # output script
     output=$(amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print $4 }')
     input=$(amixer sget Capture | grep 'Left:' | awk -F '[][]' '{ print $4 }')
@@ -85,8 +85,18 @@ print_volume() {
     echo "$output $input"
 }
 
+printNetwork() {
+    logfile=/dev/shm/netlog
+    [ -f "$logfile" ] || echo "0 0" > "$logfile"
+    read -r rxprev txprev < "$logfile"
+    rxcurrent="$(($(paste -d '+' /sys/class/net/[ew]*/statistics/rx_bytes)))"
+    txcurrent="$(($(paste -d '+' /sys/class/net/[ew]*/statistics/tx_bytes)))"
+    echo "$(bc <<< "scale=2; ($rxcurrent-$rxprev) / 10^6")" "$(bc <<< "scale=2; ($txcurrent-$txprev) / 10^6")"
+    echo "$rxcurrent $txcurrent" > "$logfile"
+}
+
 while true
 do
-    xsetroot -name "$(print_volume) $(print_backlight) $(print_battery) $(print_disk) $(print_mem) $(print_cputmp) $(print_ip) $(print_time)"
+    xsetroot -name "$(printVolume)$(printBacklight)$(printBattery)$(printDisk)$(printCputmp) $(printIp) $(printTime)"
     sleep 1
 done

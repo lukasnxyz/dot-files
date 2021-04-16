@@ -1,4 +1,4 @@
 #!/bin/sh
 
-slock & 
+slock &
 systemctl suspend &

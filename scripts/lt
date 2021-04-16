@@ -3,7 +3,7 @@
 ## --- latex template system --- ##
 
 # import modules
-import os 
+import os
 import sys
 import argparse
 
