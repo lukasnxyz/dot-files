@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# wifi status
+if [[ $(nmcli connection show | awk 'NR>=2&&NR<=2 { print $1 }') = "virbr0" ]]; then 
+	echo "<No Connection>"
+else 
+	echo "<$(nmcli connection show | awk 'NR>=2&&NR<=2 { print $1 }')>"
+fi

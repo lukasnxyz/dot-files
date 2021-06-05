@@ -1,0 +1,9 @@
+color "type=CELL_SELECTION bold=0 fg=BLACK bg=WHITE"
+color "type=CELL_SELECTION_SC bold=0 fg=BLACK bg=WHITE"
+
+color "type=NORMAL bold=0 fg=WHITE bg=BLACK"
+color "type=STRG bold=0 fg=WHITE bg=BLACK"
+color "type=HEADINGS bold=0 fg=BLACK bg=WHITE"
+color "type=HEADINGS_ODD bold=0 fg=BLACK bg=WHITE"
+
+nmap "gh" ":cellcolor bg=YELLOW fg=BLACK"

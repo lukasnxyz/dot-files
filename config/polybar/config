@@ -1,0 +1,158 @@
+;==========================================================
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;==========================================================
+
+[colors]
+background = #181818
+backgroundAlt = #282828
+foreground = #cbc5b0
+foregroundAlt = #686868
+alert = #bd2c40
+underline = #768570
+
+[settings]
+;format-underline = #768570
+format-background = ${colors.backgroundAlt}
+format-padding = 1
+screenchange-reload = true
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+[bar/example]
+fixed-center = true
+enable-ipc = true
+underline-size = 1
+border-size = 0
+border-color = #00000000
+override-redirect = false
+cursor-click = pointer
+cursor-scroll = default
+wm-restack = bspwm
+background = ${colors.background}
+foreground = ${colors.foreground}
+;separator = |
+
+module-margin-left = 1
+module-margin-right = 0
+
+offset-x = 0
+offset-y = 0
+
+width = 100%
+height = 26
+
+font-0 = JetBrainsMonoMedium:fontformat=truetype:pixelsize=14;2
+font-1 = Roboto Mono:fontformat=truetype:pixelsize=10;2
+font-2 = NotoColorEmoji:fontformat=truetype:scale=10:antialias=false;2
+
+modules-left = bspwm xwindow
+modules-center =
+modules-right = volume input backlight battery0 battery1 cputemp timeanddate 
+
+tray-position = right
+tray-padding = 1
+tray-scale = 1.0
+
+[module/xwindow]
+type = internal/xwindow
+label = [%title:0:30:...%]
+format-background = 
+format-underline = 
+
+[module/bspwm]
+type = internal/bspwm
+
+;label-separator = |
+format-underline = 
+format-background = 
+format-padding = 
+
+label-focused = %name%
+label-focused-background = #404040
+label-focused-foreground = ${colors.foreground}
+;label-focused-underline= ${colors.underline}
+label-focused-padding = 1
+
+; occupied
+label-occupied = %name% 
+label-occupied-padding = 1
+
+; unfocused 
+label-unfocused = %name%
+label-unfocused-padding = 1
+
+; empty
+label-empty = %name%
+label-empty-foreground = ${colors.foregroundAlt}
+label-empty-padding = 1
+
+; urgent
+label-urgent = %name%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
+
+[module/timeanddate]
+type = custom/script
+exec = date | awk '{ print $1, $2, $3, $5, $6 }'
+interval = 1
+
+[module/memory]
+type = custom/script
+exec = echo "Mem: $(free -m | awk '/^Mem/ {print $3}')"
+interval = 5
+
+[module/backlight]
+type = custom/script
+exec = ~/.config/polybar/scripts/backlight
+interval = 1
+
+[module/cputemp]
+type = custom/script
+exec = ~/.config/polybar/scripts/cputemp
+interval = 5
+
+[module/caps]
+type = custom/script
+exec = echo "Caps: $(xset -q | grep Caps | awk '{ print $4 }')"
+interval = 1
+
+[module/volume]
+type = custom/script
+exec = ~/.config/polybar/scripts/polyVolume
+scroll-down = amixer -D pulse sset Master 5%-
+scroll-up = amixer -D pulse sset Master 5%+
+click-right = $TERMINAL -e pulsemixer 
+format-underline = 
+interval = 1
+
+[module/input]
+type = custom/script
+exec = ~/.config/polybar/scripts/polyInput
+scroll-up = amixer -D pulse sset Capture 5%+
+scroll-down = amixer -D pulse sset Capture 5%-
+click-right = $TERMINAL -e pulsemixer
+interval = 2
+
+[module/wifi]
+type = custom/script
+exec = ~/.config/polybar/scripts/wifi
+interval = 10
+
+[module/battery0]
+type = custom/script
+exec = sh ~/.config/polybar/scripts/batstat0
+interval = 10
+
+[module/battery1]
+type = custom/script
+exec = ~/.config/polybar/scripts/batstat1
+interval = 10
