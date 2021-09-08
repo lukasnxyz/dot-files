@@ -1,91 +1,31 @@
 #!/bin/sh
 # dwm status using xset root
 
+printDate(){
+    echo "$(date +"%a, %D %I:%M:%S %p")"
+}
+
 printIp() {
     echo "$(ip route get 8.8.8.8 2>/dev/null | grep -Eo 'src [0-9.]+' | grep -Eo '[0-9.]+')"
 }
 
+printCpuTemp() {
+    echo "$(head -c 2 /sys/class/thermal/thermal_zone0/temp | sed 's/$/°C/')"
+}
+
 printMemory() {
-    echo "(mem)$(($(grep -m1 'MemAvailable:' /proc/meminfo | awk '{print $2}') / 1024))"
-}
-
-printDisk() {
-    echo "(hd)$(df -h / | awk '{print $3}' | sed -n '1!p')"
-}
-
-print_caps() {
-    echo "Caps: $(xset -q | grep Caps | awk '{ print $4 }')"
-}
-
-printTime() {
-    echo "$(date +"%a, %D %I:%M:%S %p")"
+    echo $(($(grep -m1 'MemAvailable:' /proc/meminfo | awk '{print $2}') / 1024))
 }
 
 printBacklight() {
-    echo "(bl)$(xbacklight -get | sed 's/\.[0-9]*//' | sed 's/$/%/')"
+    echo "bl$(xbacklight -get | sed 's/\.[0-9]*//' | sed 's/$/%/')"
 }
 
-printBattery() {
-    bat0=$(cat /sys/class/power_supply/BAT0/status)
-    batstat0=$(echo "(i)$(cat /sys/class/power_supply/BAT0/capacity | sed 's/$/%/')")
-    
-    bat1=$(cat /sys/class/power_supply/BAT1/status)
-    batstat1=$(echo "$(cat /sys/class/power_supply/BAT1/capacity | sed 's/$/%/'| sed 's/^/(e)/')")
-    
-    case $bat0 in
-        Full)
-            bat0=$(echo "T")
-            ;;
-        Unknown)
-            bat0=$(echo "T")
-            ;;
-        Discharging)
-            bat0=$(echo "D")
-            ;;
-        Charging)
-            bat0=$(echo "C")
-            ;;
-    esac
-                                                                                                                    
-    case $bat1 in
-        Full)
-            bat1=$()
-            ;;
-        Unknown)
-            bat1=$(echo "T")
-            ;;
-        Discharging)
-            bat1=$(echo "D")
-            ;;
-        Charging)
-            bat1=$(echo "C")
-            ;;
-    esac
-                                                                                                                                                                                                                                   
-    echo "$batstat0$bat0$batstat1$bat1"
+printDisk() {
+    echo "/$(df -h / | awk '{print $3}' | sed -n '1!p')"
 }
 
-printCputmp() {
-    test -f /sys/class/thermal/thermal_zone0/temp || return 0
-    echo "(cpu)$(head -c 2 /sys/class/thermal/thermal_zone0/temp)C"
-    #sensors | awk '/^Package id/ { print $4 }' | sed -e 's/+//' -e 's/C//' -e 's/°//' -e 's/.$//' -e 's/.$//' >> ~/tempsLog.txt
-    #echo "(cpu)$(sensors | awk '/^Package id/ { print $4 }')"
-}
-
-printVolume() {
-    # output script
-    output=$(amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print $4 }')
-    input=$(amixer sget Capture | grep 'Left:' | awk -F '[][]' '{ print $4 }')
-    if [[ $output = "on" ]]; then
-        output=$(echo "(vol)$(amixer sget Master | grep 'Right:' | awk -F '[][]' '{ print $2, $4 }')")
-        input=$(echo "$(amixer sget Capture | grep 'Left:' | awk -F '[][]' '{ print $4 }')")
-    else
-        output=$(echo "(vol)$(amixer sget Master | grep 'Right:' | awk -F '[][]' '{ print $4 }')")
-        fi
-    echo "$output $input"
-}
-
-printNetwork() {
+printNetworkSpeeds() {
     logfile=/dev/shm/netlog
     [ -f "$logfile" ] || echo "0 0" > "$logfile"
     read -r rxprev txprev < "$logfile"
@@ -95,8 +35,62 @@ printNetwork() {
     echo "$rxcurrent $txcurrent" > "$logfile"
 }
 
+printBattery() {
+    bat0=$(cat /sys/class/power_supply/BAT0/status)
+    bat1=$(cat /sys/class/power_supply/BAT1/status)
+
+    duo=$(awk '{ sum += $1 } END { print sum }' /sys/class/power_supply/BAT*/capacity)
+    total=$(bc <<< "scale=0; $duo/2")
+
+    if [ "$bat0" == "Charging" ] || [ "$bat1" == "Charging" ]
+    then
+	icon=" "
+    else
+	if [ $total -ge 90 ]
+	then
+	    icon=" "
+	fi
+	if [ $total -lt 90 ] && [ $total -ge 70 ]
+	then
+	    icon=" "
+	fi
+	if [ $total -lt 70 ] && [ $total -ge 40 ]
+	then
+	    icon=" "
+	fi
+	if [ $total -lt 40 ] && [ $total -ge 15 ]
+	then
+	    icon=" "
+	fi
+	if [ $total -lt 15 ]
+	then
+	    icon=" "
+	fi
+    fi
+
+    echo "$icon$total%"
+}
+
+printInputVolume() {
+    if [[ $(amixer sget Capture | grep 'Left:' | awk -F '[][]' '{ print $4 }') = "on" ]]; then
+	echo "(i)$(amixer sget Capture | grep 'Left:' | awk -F '[][]' '{ print $2 }')"
+    else
+	echo "(i)"
+    fi
+}
+
+printOutputVolume() {
+    output=$(amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print $4 }')
+    if [[ $output = "on" ]]; then
+	output=$(echo " $(amixer sget Master | grep 'Right:' | awk -F '[][]' '{ print $2 }' | tr -d ' ')")
+    else
+	output=$(echo "")
+    fi
+    echo "$output"
+}
+
 while true
 do
-    xsetroot -name "$(printVolume)$(printBacklight)$(printBattery)$(printDisk)$(printCputmp) $(printIp) $(printTime)"
+    xsetroot -name "$(s_output_volume.sh) $(printMemory) $(printIp) $(printDisk) $(printCpuTemp) $(printBattery) $(printDate)"
     sleep 1
 done

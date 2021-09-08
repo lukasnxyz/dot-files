@@ -29,24 +29,76 @@ XF86HomePage
         $BROWSER
 
 # launch audio controler
-super + a 
-        $TERMINAL -e pulsemixer 
+super + a
+        $TERMINAL -e pulsemixer
 
 # launch file manager
 super + f
-        $TERMINAL -e vifm
+        $TERMINAL -e vifmrun
+
+# launch cmus
+super + c
+        $TERMINAL -e cmus
+
+# launch newsboat
+super + r
+        $TERMINAL -e newsboat
+
+# launch neomutt
+super + e
+        $TERMINAL -e neomutt
+
+# launch calculator
+super + shift + a
+        $TERMINAL -e calc
+
+# exit prompt
+super + s
+       system_prompt.sh
+
+# launch ambient sounds
+super + shift + s
+        dmenu_ambient_sounds.sh
+
+# launch dmenu_emoji
+super + shift + ~
+        dmenu_emoji.sh
+
+# launch clipboard history
+super + tilda
+        clipmenu -p clipboard
+
+# launch qrcode.sh
+super + F8
+        qrcode.sh
+
+# launch camera
+super + F7
+        ffplay /dev/video0
+
+# launch dmenu_bookmarks
+super + shift + w
+        dmenu_bookmarks.sh
+
+# launch screenshot.sh
+#super + printscreen
+#        screenshot.sh
 
 # display option
 super + i
         display_prompt.sh
 
+# screencast script
+super + shift + c
+        dmenu_screencasts.sh
+
 ## --- media keys --- ##
 
 XF86AudioRaiseVolume
-        amixer -D pulse sset Master 5%+
+        amixer -D pulse sset Master 3%+
 
 XF86AudioLowerVolume
-        amixer -D pulse sset Master 5%-
+        amixer -D pulse sset Master 3%-
 
 XF86AudioMute
         amixer -D pulse sset Master toggle
@@ -55,10 +107,10 @@ XF86AudioMicMute
         amixer sset Capture toggle
 
 super + u
-        amixer -D pulse sset Master 5%+
+        amixer -D pulse sset Master 3%+
 
 super + d
-        amixer -D pulse sset Master 5%-
+        amixer -D pulse sset Master 3%-
 
 super + o
         amixer -D pulse sset Master toggle
@@ -75,6 +127,12 @@ XF86MonBrightnessUp
 XF86MonBrightnessDown
         xbacklight -dec 10
 
+super + shift + u
+        xbacklight -inc 10
+
+super + shift + d
+        xbacklight -dec 10
+
 XF86AudioNext
         playerctl next
 
@@ -83,6 +141,9 @@ XF86AudioPlay
 
 XF86AudioPrev
         playerctl previous
+
+super + F9
+        amixer sset Capture toggle
 
 super + F12
         playerctl next
@@ -96,12 +157,8 @@ super + F10
 ## --- bspwm hotkeys --- ##
 
 # restart bspwm
-super + r
+super + shift + r
 	bspc wm -r
-
-# exit prompt
-super + s
-       system_prompt.sh
 
 # kill and close
 super + q
@@ -120,8 +177,8 @@ super + shift + f
         bspc node -t fullscreen
 
 # set the node flags
-super + shift + s 
-	bspc node -g sticky
+#super + shift + s
+	#bspc node -g sticky
 
 ## --- focus/swap --- ##
 
@@ -130,8 +187,8 @@ super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 
 # tab through workspaces
-#super + Tab 
-#    bspc desktop -f {next}.local
+super + Tab
+        bspc desktop -f {next}.local
 
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}

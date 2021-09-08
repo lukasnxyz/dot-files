@@ -174,7 +174,11 @@ command! reload :write | restart
 
 " Pdf
 filextype *.pdf zathura %c %i &, apvlv %c, xpdf %c
-fileviewer *.pdf pdftotext -nopgbrk %c -
+fileviewer *.pdf
+        \ vifmimg pdfpreview %px %py %pw %ph %c
+        \ %pc
+        \ vifmimg clear
+        " \ pdftotext -nopgbrk %c -
 
 " PostScript
 filextype *.ps,*.eps,*.ps.gz
@@ -204,7 +208,7 @@ filextype *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
          \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
          \*.as[fx]
         \ {View using ffplay}
-        \ ffplay -fs -autoexit %f,
+        \ mpv %f,
         \ {View using Dragon}
         \ dragon %f:p,
         \ {View using mplayer}
@@ -230,7 +234,14 @@ filextype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
         \ {View in shotwell}
         \ shotwell,
 fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
-         \ identify %f
+        \ vifmimg draw %px %py %pw %ph %c
+        \ %pc
+        \ vifmimg clear
+
+fileviewer *.gif
+        \ vifmimg gifpreview %px %py %pw %ph %c
+        \ %pc
+        \ vifmimg clear
 
 " OpenRaster
 filextype *.ora
@@ -364,6 +375,22 @@ filextype */
 " For Windows:
 " filetype * start, explorer
 
+
+" file types
+"set classify=' :dir:/, :exe:, :reg:, :link:'
+" various file names
+"set classify+=' ::../::, ::*.sh::, ::*.[hc]pp::, ::*.[hc]::, ::/^copying|license$/::, ::.git/,,*.git/::, ::*.epub,,*.fb2,,*.djvu::, ::*.pdf::, ::*.htm,,*.html,,**.[sx]html,,*.xml::'
+" archives
+"set classify+=' ::*.7z,,*.ace,,*.arj,,*.bz2,,*.cpio,,*.deb,,*.dz,,*.gz,,*.jar,,*.lzh,,*.lzma,,*.rar,,*.rpm,,*.rz,,*.tar,,*.taz,,*.tb2,,*.tbz,,*.tbz2,,*.tgz,,*.tlz,,*.trz,,*.txz,,*.tz,,*.tz2,,*.xz,,*.z,,*.zoo::, ::*.zip::'
+" images
+"set classify+=' ::*.bmp,,*.gif,,*.jpeg,,*.jpg,,*.ico,,*.png,,*.ppm,,*.svg,,*.svgz,,*.tga,,*.tif,,*.tiff,,*.xbm,,*.xcf,,*.xpm,,*.xspf,,*.xwd::'
+" audio
+"set classify+=' ::*.aac,,*.anx,,*.asf,,*.au,,*.axa,,*.flac,,*.m2a,,*.m4a,,*.mid,,*.midi,,*.mp3,,*.mpc,,*.oga,,*.ogg,,*.ogx,,*.ra,,*.ram,,*.rm,,*.spx,,*.wav,,*.wma,,*.ac3::'
+" media
+"set classify+=' ::*.avi,,*.ts,,*.axv,,*.divx,,*.m2v,,*.m4p,,*.m4v,,.mka,,*.mkv,,*.mov,,*.mp4,,*.flv,,*.mp4v,,*.mpeg,,*.mpg,,*.nuv,,*.ogv,,*.pbm,,*.pgm,,*.qt,,*.vob,,*.wmv,,*.xvid,,*.webm::'
+" office files
+"set classify+=' ::*.doc,,*.docx::, ::*.xls,,*.xls[mx]::, ::*.pptx,,*.ppt::'
+
 " ------------------------------------------------------------------------------
 
 " What should be saved automatically between vifm sessions.  Drop "savedirs"
@@ -474,3 +501,4 @@ nnoremap <f8> :delete<cr>
 "
 " let $VIFM_SERVER_NAME = v:servername
 
+"source $HOME/.config/vifm/favicons.vifm

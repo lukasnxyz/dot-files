@@ -1,9 +1,0 @@
-#!/bin/sh
-
-# output volume
-if [[ $(amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print $4 }') = "on" ]]; then
-	echo "out: $(amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print $2, $4 }')"
-else
-	echo "out: $(amixer sget Master | grep 'Right:' | awk -F'[][]' '{ print $4 }')"
-fi
-

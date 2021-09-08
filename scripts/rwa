@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+# random wikipedia article viewer and downloader for offline viewing
+
+import requests
+from bs4 import BeautifulSoup
+import webbrowser
+import os
+
+articleStoreDir = "/home/ln/.local/share/rwa_articles/"
+x = True
+
+while x:
+    url = requests.get("https://en.wikipedia.org/wiki/Special:Random")
+    soup = BeautifulSoup(url.content, "html.parser")
+    title = soup.find(class_="firstHeading").text
+
+
+    print(f"{title} \n(R)ead, (N)ext, (S)top")
+    choice = input("").lower()
+
+    if choice == "r":
+        url = "https://en.wikipedia.org/wiki/" + title.replace(" ", "_")
+        print(url)
+        print("Downloading Article")
+        articlePath = articleStoreDir + title.replace(" ", "_") + ".html"
+        request.urlretrieve(url, articlePath)
+        webbrowser.open_new(articlePath)
+        break
+    elif choice == "n":
+        os.system("clear")
+        continue
+    elif choice == "s":
+        os.system("clear")
+        break
+    else:
+        print("Invalid Input!")
+        os.system("clear")
+        continue

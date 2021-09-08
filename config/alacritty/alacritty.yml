@@ -15,27 +15,25 @@ font:
   size: 10
 
 window:
-  padding: 
-    x: 1
-    y: 1
+  padding:
+    x: 2
+    y: 2
   title: alacritty
-  #dynamic_title: true
   dynamic_padding: false
   gtk_theme_variant: None
 
-scrolling: 
+scrolling:
   history: 10000
 
-#selection: 
-  #save_to_clipboard: true
+background_opacity: 0.80
 
 cursor:
   style:
-    shape: Underline
-  blinking: Off
+    shape: Block
+      #blinking: On
 
 mouse:
-  url:
+  hint:
     launcher:
       program: xdg-open
       args: []
@@ -55,33 +53,39 @@ colors:
     background: '#000000'
     foreground: '#efebd9'
 
+  # Normal colors
   normal:
-    black:   '#101010'
-    red:     '#d54e53'
-    green:   '#00ff00'
-    yellow:  '#e6c547'
-    blue:    '#7aa6da'
-    magenta: '#b972e9'
-    cyan:    '#70c0ba'
-    white:   '#fafafa'
+    black:   '#191919'
+    red:     '#b02626'
+    green:   '#40a62f'
+    yellow:  '#f2e635'
+    blue:    '#4C4CFF'
+    magenta: '#b30ad0'
+    cyan:    '#32d0fc'
+    white:   '#acadb1'
+
+  # Bright colors
   bright:
-    black:   '#303030'
-    red:     '#ff3334'
-    green:   '#00ff00'
-    yellow:  '#e7c547'
-    blue:    '#7aa6da'
-    magenta: '#b77ee0'
-    cyan:    '#54ced6'
-    white:   '#ffffff'
+    black:   '#36393d'
+    red:     '#ce2727'
+    green:   '#47c930'
+    yellow:  '#fff138'
+    blue:    '#2e4bea'
+    magenta: '#cc15ed'
+    cyan:    '#54d9ff'
+    white:   '#dbdbdb'
+
+  # Dim colors
   dim:
-    black:   '#000000'
-    red:     '#8c3336'
-    green:   '#00ff00'
-    yellow:  '#97822e'
-    blue:    '#506d8f'
-    magenta: '#80638e'
-    cyan:    '#497e7a'
-    white:   '#9a9a9a'
+    black:   '#676f78'
+    red:     '#b55454'
+    green:   '#78a670'
+    yellow:  '#faf380'
+    blue:    '#707fd0'
+    magenta: '#c583d0'
+    cyan:    '#8adaf1'
+    white:   '#e0e3e7'
+
   cursor:
     cursor: '#ffffff'
 

@@ -21,7 +21,7 @@ args = vars(ap.parse_args())
 file_name = args['name']
 file_type = args['type']
 
-# choice defenition 
+# choice defenition
 def choice(fileName,fileType):
     fileType = file_type
     fileName = file_name

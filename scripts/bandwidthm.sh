@@ -1,4 +1,5 @@
 #!/bin/sh
+
 init="$(($(cat /sys/class/net/[ew]*/statistics/rx_bytes | paste -sd '+')))"
 
 printf "recording bandwidth... Press enter to stop\n"

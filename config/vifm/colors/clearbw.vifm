@@ -17,7 +17,7 @@ highlight WildMenu      cterm=none      ctermfg=188     ctermbg=238
 highlight CmdLine       cterm=none      ctermfg=188     ctermbg=default
 highlight ErrorMsg      cterm=none      ctermfg=188     ctermbg=237
 
-highlight Executable    cterm=none      ctermfg=white   ctermbg=black
+highlight Executable    cterm=none      ctermfg=white   ctermbg=235
 highlight Link          cterm=none      ctermfg=188     ctermbg=237
 highlight BrokenLink    cterm=none      ctermfg=188     ctermbg=237
 highlight Device        cterm=none      ctermfg=188     ctermbg=237

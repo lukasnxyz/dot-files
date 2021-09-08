@@ -1,8 +1,4 @@
-!
-! ~/.config/.Xmodmap
-!
-
-!! --- swap caps lock and escape --- !! 
+!! --- swap caps lock and escape --- !!
 keycode 66 = Caps_Lock
 keycode 9 = Escape
 remove Lock = Caps_Lock

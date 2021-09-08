@@ -6,4 +6,4 @@
 # |  _|  __/ | | |
 # |_|  \___|_| |_|
 
-feh --bg-scale  --no-fehbg '/home/ln/media/pictures/my_wallpapers/space_station.jpg'
+feh --no-fehbg --bg-fill '/home/ln/media/pictures/my_wallpapers/feather_image.jpg'

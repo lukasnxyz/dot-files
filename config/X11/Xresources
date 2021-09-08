@@ -1,13 +1,13 @@
 ! ---             --- !
-! --- .Xresources --- !
+! --- Xresources --- !
 ! ---             --- !
 
-URxvt.font: xft:monospace:size=10:style=Bold:anitialias=true:autohint=true
-URxvt.scrollBar: false
-URxvt.internalBorder: 5
-! Setting transparency and background 
-URxvt*depth:       32
-URxvt.background: [85]#000000
+! URxvt.font: xft:monospace:size=10:style=Bold:anitialias=true:autohint=true
+! URxvt.scrollBar: false
+! URxvt.internalBorder: 5
+! Setting transparency and background
+! URxvt*depth:       32
+! URxvt.background: [85]#000000
 
 ! special
 *.foreground:   #ffffff
