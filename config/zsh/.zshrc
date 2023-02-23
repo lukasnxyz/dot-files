@@ -1,11 +1,11 @@
-## -- zshrc --- ##
-
 # color
 autoload -U colors && colors
-source /home/ln/.config/zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+#colorscript -r
 # prompt
+#PS1="%{$fg[white]%}%~%{$fg[white]%}$%{$reset_color%} "
 PS1="%{$fg[green]%}%~%{$fg[cyan]%} >%{$reset_color%} "
+#PS1="[%n@%M %~]%{$reset_color%}$ "
 
 # history
 HISTSIZE=1000000
@@ -45,46 +45,40 @@ bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
+bindkey -v '^R' history-incremental-search-backward
 
 # change cursor shape for different vi modes (change 3 or 5 for underline or beam)
 function zle-keymap-select {
   if [[ ${KEYMAP} == vicmd ]] ||
-     [[ $1 = 'underbeam' ]]; then
-     echo -ne '\e[4 q'
+     [[ $1 = 'beam' ]]; then
+     echo -ne '\e[1 q'
   elif [[ ${KEYMAP} == main ]] ||
        [[ ${KEYMAP} == viins ]] ||
        [[ ${KEYMAP} = '' ]] ||
        [[ $1 = 'block' ]]; then
-       echo -ne '\e[1 q'
+       echo -ne '\e[5 q'
   fi
 }
 
 zle -N zle-keymap-select
 zle-line-init() {
         zle -K viins
-        echo -ne "\e[1 q"
+        echo -ne "\e[5 q"
 }
 
 zle -N zle-line-init
-echo -ne '\e[6 q'
-preexec() { echo -ne '\e[1 q' ;}
+echo -ne '\e[5 q'
+preexec() { echo -ne '\e[5 q' ;}
 
+source ~/.local/share/aliasrc
 # custom aliases
-alias ls='ls --color=auto'
-alias ll='echo "Files: $(ls -A | wc -l)" && ls --color=auto -s -l -A'
-alias grep='grep --color=auto'
-alias cp='cp -iv'
-alias mv='mv -iv'
-alias rm='rm -iv'
+alias ls='/bin/ls --color=auto'
+alias ll='/bin/ls --color=auto -s -l -A'
+alias grep='/bin/grep --color=auto'
+alias cp='/bin/cp -iv'
+alias mv='/bin/mv -iv'
+alias rm='/bin/rm -v'
 alias q='exit'
-alias quit='exit'
-alias ka='killall'
-alias v='vim'
-alias s='systemctl'
-alias ia='ip -c a'
-alias ac='/bin/vim $HOME/doc/pw.txt'
-
-# auto launch tmux in st
-#if [[ $TERM == "st-256color" ]]; then
-    #[[ -z "$TMUX" ]] && exec tmux
-#fi
+alias ka='/bin/killall'
+alias s='/bin/systemctl'
+alias ac='/usr/bin/vim $HOME/doc/pw.txt'

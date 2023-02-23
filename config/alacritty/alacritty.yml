@@ -1,18 +1,18 @@
 ## --- alacritty configuration --- ##
 font:
   bold:
-    family: monospace
+    family: termono
     style: Bold
   bold_italic:
-    family: monospace
+    family: termono
     style: Bold Italic
   italic:
-    family: monospace
+    family: termono
     style: Italic
   normal:
-    family: monospace
+    family: termono
     style: Regular
-  size: 10
+  size: 9
 
 window:
   padding:
@@ -25,12 +25,9 @@ window:
 scrolling:
   history: 10000
 
-background_opacity: 0.80
-
 cursor:
   style:
-    shape: Block
-      #blinking: On
+    shape: Beam
 
 mouse:
   hint:
@@ -46,7 +43,7 @@ colors:
     matches:
       foreground: '#181818'
       background: '#f4bf75'
-    bar:
+    footer_bar:
       foreground: '#d0d0d0'
       background: '#262626'
   primary:
@@ -92,6 +89,6 @@ colors:
 key_bindings:
   - {key: V, mods: Control|Shift, action: Paste}
   - {key: C, mods: Control|Shift, action: Copy}
-  - {key: Equals, mods: Control, action: IncreaseFontSize}
-  - {key: Minus, mods: Control, action: DecreaseFontSize}
+  - {key: K, mods: Control|Shift, action: IncreaseFontSize}
+  - {key: J, mods: Control|Shift, action: DecreaseFontSize}
   - {key: Key0, mods: Control, action: ResetFontSize}

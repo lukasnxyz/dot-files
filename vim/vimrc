@@ -5,114 +5,91 @@
 
 " --- parameters
 syntax on
-filetype plugin on
-
 set nowrap
 set nobackup
 set undofile
 set t_Co=256
 set incsearch
 set smartcase
-set ignorecase
-"set expandtab
+set expandtab
+set tabstop=4
 set noswapfile
+set ignorecase
 set smartindent
+set nocompatible
 set noerrorbells
 set shiftwidth=4
-set nocompatible
-set shortmess+=c
-set showtabline=1
 set updatetime=50
 set encoding=UTF-8
+filetype plugin on
 set complete+=kspell
 set formatoptions-=cro
-set splitbelow splitright
 set number relativenumber
 set undodir=~/.vim/undodir
 set wildmode=longest,list,full
 set completeopt=menuone,longest
 set previewpopup=height:15,width:60
 set viminfo='100,n$HOME/.vim/files/info/viminfo
-"set list listchars=nbsp:¬,tab:»·,trail:·,extends:>
-
-let $PAGER=''
+set foldcolumn=1
+set showcmd
 let mapleader = " "
 
-highlight SpellBad cterm=underline ctermbg=red
-highlight Cursorline cterm=NONE ctermbg=000 ctermfg=NONE
-highlight Cursorcolumn cterm=NONE ctermbg=000 ctermfg=NONE
+" local filetype settings
+autocmd FileType tex setlocal wrap tw=100
+autocmd FileType tex setlocal spell
+autocmd FileType markdown setlocal wrap tw=100
+autocmd FileType markdown setlocal spell
 
-"autocmd InsertEnter * norm zz
 autocmd BufWritePre * %s/\s\+$//e
-autocmd FileType tex setlocal wrap tw=80
-autocmd FileType markdown setlocal wrap tw=80
 autocmd InsertEnter,InsertLeave * set cursorline!
-autocmd InsertEnter,InsertLeave * set cursorcolumn!
-autocmd vimenter * highlight Normal guibg=NONE ctermbg=NONE | highlight LineNr ctermbg=NONE
-autocmd vimenter * highlight EndOfBuffer guibg=NONE ctermbg=NONE | highlight LineNr ctermbg=NONE
 
-" search for '.vim.custom' in local directory for specific vim configurations
-if filereadable(".vim.custom")
-    so .vim.custom
-endif
-
-" place cursor where it was last
+" auto place cursor where it was last when opening a file
 if has("autocmd")
         au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
 			\| exe "normal! g'\"" | endif
 endif
 
+" auto save and load folds
+augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave * mkview
+  autocmd BufWinEnter * silent! loadview
+augroup END
+
 " --- plug in manager (vim-plug)
 call plug#begin('~/.vim/autoload')
 
-Plug 'vimwiki/vimwiki'
-Plug 'ap/vim-css-color'
 Plug 'junegunn/fzf.vim'
+Plug 'vimwiki/vimwiki'
+Plug 'preservim/nerdcommenter'
+
+Plug 'jiangmiao/auto-pairs'
 Plug 'alvan/vim-closetag'
+Plug 'dense-analysis/ale'
+Plug 'vim-scripts/AutoComplPop'
+Plug 'airblade/vim-gitgutter'
+
 Plug 'itchyny/lightline.vim'
 Plug 'flazz/vim-colorschemes'
-Plug 'vim-scripts/AutoComplPop'
-Plug 'scrooloose/nerdcommenter'
+Plug 'ap/vim-css-color'
 
 call plug#end()
 
+" --- colorscheme
+colorscheme jellybeans
+
 " --- keybindings
 map cc :!
-map <C-S> :write<CR>
-map <leader>. :Vex<CR>
 map fj 0cw<bs><cr><esc>
 map <leader>t :tabe<CR>
-map <leader>p :History<CR>
-map <leader>P :Files .<CR>
-map <leader>h :History:<CR>
-map <leader>s :Files $HOME<CR>
+map <leader>n :tabn<CR>
+map <leader>n :Lexplore<CR>
+map <leader>. :Files ~/<CR>
 noremap <leader>] :wincmd <<CR>
 noremap <leader>[ :wincmd ><CR>
+map <leader>b :VimwikiUISelect<CR>
+map <leader>g :GitGutterToggle<CR>
 map <leader>r :%s///g<Left><Left><Left>
-map <leader>c <plug>NERDCommenterToggle
-
-" --- lightline configuration
-if !has('gui_running')
-      set t_Co=256
-  endif
-
-set laststatus=2
-set noshowmode
-
-let g:lightline = {
-      \ 'colorscheme': 'jellybeans',
-      \ 'active': {
-	  \   'left': [ [ 'mode', 'paste' ],
-	  \             [ 'absolutepath', 'modified', 'readonly' ] ]
-      \ },
-      \	'mode_map': {
-	  \ 'n': 'NORMAL',
-	  \ 'i': 'INSERT',
-	  \ 'R': 'REPLACE',
-	  \ 'v': 'VISUAL',
-	  \ 'c': 'COMMAND'
-      \ },
-      \ }
 
 " --- netrw
 let g:netrw_altv=1
@@ -121,28 +98,36 @@ let g:netrw_winsize=15
 let g:netrw_liststyle=3
 let g:netrw_browse_split=4
 
+augroup AutoDeleteNetrwHiddenBuffers
+    au!
+    au FileType netrw setlocal bufhidden=wipe
+augroup end
+
 " --- Vimwiki
-let g:vimwiki_list = [{
-            \ 'auto_diary_index': 1,
-            \ 'path': '~/doc/vimwiki/',
-            \ 'syntax': 'markdown',
-            \ 'ext': '.md',
-            \ 'path_html': '~/doc/vimwiki/html_doc/'
-            \ }]
+let wiki_1 = {}
+let wiki_1.auto_diary_index = 1
+let wiki_1.path = '~/doc/vimwiki/'
+let wiki_1.path_html = '~/doc/vimwiki/html_doc/'
 
-" --- vim-closetag
-let g:closetag_shortcut = '>'
-let g:closetag_emptyTags_caseSensitive = 0
-let g:closetag_xhtml_filetypes = 'xhtml,jsx'
-let g:closetag_xhtml_filenames = '*.xhtml,*.jsx'
-let g:closetag_filetypes = 'html,xhtml,phtml,markdown,tex'
-let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.md,*.wiki,*.tex,*.js,*.css'
+let wiki_2 = {}
+let wiki_2.auto_diary_index = 1
+let wiki_2.path = '~/hs/vimwiki_hs/'
+let wiki_2.path_html = '~/hs/vimwiki_hs/html_doc/'
 
-" --- diy autoclosing
-inoremap [ []<left>
-inoremap ( ()<left>
-inoremap { {}<left>
+let g:vimwiki_list = [wiki_1, wiki_2]
 
-" colorscheme
-set background=dark
-colorscheme jellybeans
+" --- lightline
+set laststatus=2
+set noshowmode
+let g:lightline = {
+      \ 'colorscheme': 'jellybeans',
+      \ 'active': {
+      \     'left': [ [ 'mode', 'paste' ],
+      \               [ 'gitbranch', 'readonly', 'filename', 'modified' ] ],
+      \     'right': [ [ 'lineinfo' ],
+      \              [ 'percent' , 'filetype'] ]
+      \ }
+      \ }
+
+" --- fzf
+let g:fzf_layout = { 'down':  '40%'}

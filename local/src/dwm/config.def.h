@@ -13,11 +13,11 @@ static const int showbar                 = 1;        /* 0 means no bar */
 static const int topbar                  = 1;        /* 0 means bottom bar */
 static const char *fonts[]               = { "termono:size=20", "FontAwesome:size=12" };
 static const char dmenufont[]            = "termono:size=20";
-static const char col_gray1[]            = "#222222";
-static const char col_gray2[]            = "#444444";
-static const char col_gray3[]            = "#bbbbbb";
-static const char col_gray4[]            = "#eeeeee";
-static const char col_main[]             = "#005577";
+static const char col_gray1[]            = "#222222"; // #222222
+static const char col_gray2[]            = "#444444"; // #444444
+static const char col_gray3[]            = "#bbbbbb"; // #bbbbbb
+static const char col_gray4[]            = "#eeeeee"; // #eeeeee
+static const char col_main[]             = "#005577"; // #005577
 static const char *colors[][3]           = {
     /*               fg         bg         border   */
     [SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -26,7 +26,6 @@ static const char *colors[][3]           = {
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-//static const char *tags[] = { "", "", "", "", "", "", "", "", "" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -34,7 +33,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class        instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",          NULL,    NULL,         1 << 7,             0,       -1 },
+	{ "XCalc",         NULL,    NULL,              0,             1,       -1 },
 };
 
 /* layout(s) */
@@ -65,13 +64,11 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0";
 static const char *cmddmenu[] = { "dmenu_run", "-i", "-p", "run", NULL };
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_main, "-sf", col_gray4, "-p", "run:", NULL };
-static const char *cmdscreenshot[]  = { "screenshot.sh", NULL };
+static const char *cmdscreenshot[]  = { "scrot", "-s", "-e", "mv $f ~/media/scrots", NULL };
 static const char *cmdsoundup[]  = { "amixer", "-q", "sset", "Master", "5%+", NULL };
 static const char *cmdsounddown[]  = { "amixer", "-q", "sset", "Master", "5%-", NULL };
 static const char *cmdsoundtoggle[]  = { "amixer", "-q", "sset", "Master", "toggle", NULL };
 static const char *cmdcapturetoggle[]  = { "amixer", "-q", "sset", "Capture", "toggle", NULL };
-static const char *cmdbacklightup[]  = { "xbacklight", "-inc", "10", NULL };
-static const char *cmdbacklightdown[]  = { "xbacklight", "-dec", "10", NULL };
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
@@ -81,20 +78,16 @@ static Key keys[] = {
     { 0,                   XF86XK_Search,      spawn,          {.v = cmddmenu } },
     { MODKEY,                  XK_Return,      spawn,          SHCMD("$TERMINAL") },
     { MODKEY,                       XK_w,      spawn,          SHCMD("$BROWSER") },
+    { MODKEY,                       XK_e,      spawn,          SHCMD("thunderbird") },
     { MODKEY,                       XK_a,      spawn,          SHCMD("$TERMINAL -e pulsemixer") },
     { MODKEY,                       XK_f,      spawn,          SHCMD("$TERMINAL -e vifmrun") },
-    { MODKEY|ShiftMask,             XK_a,      spawn,          SHCMD("$TERMINAL -e calc") },
-    { 0,                        XK_Print,      spawn,          {.v = cmdscreenshot } },
-    { MODKEY|ShiftMask,         XK_grave,      spawn,          SHCMD("dmenu_emoji.sh") },
-    { MODKEY|ShiftMask,             XK_c,      spawn,          SHCMD("dmenu_screencasts.sh") },
-    { MODKEY|ShiftMask,             XK_w,      spawn,          SHCMD("dmenu_bookmarks.sh") },
-    { MODKEY,                       XK_i,      spawn,          SHCMD("dmenu_display_prompt.sh") },
-    { MODKEY,                       XK_s,      spawn,          SHCMD("dmenu_system_prompt.sh") },
-    { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("systemctl suspend") },
-    { MODKEY,                   XK_grave,      spawn,          SHCMD("clipmenu -p clipboard") },
     { MODKEY|ShiftMask,             XK_i,      spawn,          SHCMD("xset r rate 300 50") },
-    { MODKEY,                      XK_F7,      spawn,          SHCMD("mpv --no-cache --no-osc --no-input-default-bindings --profile=low-latency --input-conf=/dev/null --title=webcam $(ls /dev/video[0,2,4,6,8] | tail -n 1)") },
-    { MODKEY,                      XK_F8,      spawn,          SHCMD("qrcode.sh") },
+    { MODKEY,                       XK_s,      spawn,          {.v = cmdscreenshot } },
+    { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("locker.sh") },
+    { MODKEY,                       XK_r,      spawn,          SHCMD("dmenu_redshift.sh") },
+    { MODKEY,                   XK_grave,      spawn,          SHCMD("clipmenu -p clipboard") },
+    { MODKEY|ShiftMask,         XK_grave,      spawn,          SHCMD("dmenu_accent_letters.sh") },
+    { MODKEY|ShiftMask,             XK_m,      spawn,          SHCMD("arandr") },
 
     // media keys
     { MODKEY,                       XK_u,      spawn,          {.v = cmdsoundup } },
@@ -106,16 +99,14 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_o,      spawn,          SHCMD("amixer set Master 0 && amixer set Master off") },
     { MODKEY,                      XK_F9,      spawn,          {.v = cmdcapturetoggle } },
     { 0,             XF86XK_AudioMicMute,      spawn,          {.v = cmdcapturetoggle } },
-    { 0,          XF86XK_MonBrightnessUp,      spawn,          {.v = cmdbacklightup } },
-    { MODKEY|ShiftMask,             XK_u,      spawn,          {.v = cmdbacklightup } },
-    { 0,        XF86XK_MonBrightnessDown,      spawn,          {.v = cmdbacklightdown } },
-    { MODKEY|ShiftMask,             XK_d,      spawn,          {.v = cmdbacklightdown } },
     { MODKEY,                     XK_F12,      spawn,          SHCMD("playerctl next") },
     { 0,                XF86XK_AudioNext,      spawn,          SHCMD("playerctl next") },
     { MODKEY,                     XK_F11,      spawn,          SHCMD("playerctl play-pause") },
     { 0,                XF86XK_AudioPlay,      spawn,          SHCMD("playerctl play-pause") },
     { MODKEY,                     XK_F10,      spawn,          SHCMD("playerctl previous") },
     { 0,                XF86XK_AudioPrev,      spawn,          SHCMD("playerctl previous") },
+    { 0,          XF86XK_MonBrightnessUp,      spawn,          SHCMD("xbacklight -inc 5") },
+    { 0,        XF86XK_MonBrightnessDown,      spawn,          SHCMD("xbacklight -dec 5") },
 
     // dwm keys
     { MODKEY,                       XK_b,      togglebar,      {0} },
