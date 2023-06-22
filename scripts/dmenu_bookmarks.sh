@@ -1,13 +1,7 @@
 #!/bin/sh
 
 declare -a options=(
-"https://www.youtube.com/"
-"https://color.adobe.com/create/color-wheel"
-"https://www.w3schools.com/colors/colors_shades.asp"
-"http://lukasn.xyz/"
-"https://johncooper.myschoolapp.com/app/student#login"
-"https://mail.yahoo.com/"
-"https://outlook.office.com/mail/inbox"
+"https://mail.yahoo.com"
 "quit"
 )
 
