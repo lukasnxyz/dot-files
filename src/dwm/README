@@ -1,10 +1,3 @@
-Patches Applied
-Although no patches were really applied, this build does use a small snippet
-of code to allow for a fullscreen mode. The main source code remains untouched
-and a header file is simply included in the config.def.h that contains the
-function and function definition from the actualfullscreen patch.
-
-
 dwm - dynamic window manager
 ============================
 dwm is an extremely fast, small, and dynamic window manager for X.
