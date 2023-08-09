@@ -12,7 +12,7 @@ font:
   normal:
     family: termono
     style: Regular
-  size: 9
+  size: 10
 
 window:
   #opacity: 0.8
@@ -21,6 +21,7 @@ window:
     y: 2
   title: alacritty
   dynamic_padding: false
+  dynamic: true
   gtk_theme_variant: None
 
 scrolling:
@@ -28,7 +29,7 @@ scrolling:
 
 cursor:
   style:
-    shape: Beam
+    shape: Block
 
 mouse:
   hint:
