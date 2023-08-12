@@ -1,0 +1,155 @@
+;==========================================================
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;==========================================================
+
+[colors]
+background = #aa080808
+backgroundAlt = #282828
+foreground = #cbc5b0
+foregroundAlt = #686868
+alert = #bd2c40
+underline = #768570
+
+[settings]
+;format-underline = #768570
+;format-background = ${colors.backgroundAlt}
+format-padding = 1
+screenchange-reload = true
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+[bar/example]
+fixed-center = true
+enable-ipc = true
+underline-size = 1
+border-top = 10
+border-left = 16
+border-right = 16
+border-color = #00000000
+override-redirect = false
+cursor-click = pointer
+cursor-scroll = default
+wm-restack = bspwm
+background = ${colors.background}
+foreground = ${colors.foreground}
+;separator = |
+radius = 10px
+
+module-margin-left = 0
+module-margin-right = 0
+
+offset-x = 10%
+offset-y = 0
+
+width = 80%
+height = 35
+
+font-0 = JetBrainsMonoMedium:fontformat=truetype:pixelsize=14;2
+font-1 = FontAwesome:pixelsize=14;2
+font-2 = JoyPixels:pixelsize=14;2
+
+modules-left = inputVolume outputVolume
+modules-center = bspwm
+modules-right = cputemp battery timeanddate
+
+;tray-position = right
+;tray-padding = 1
+;tray-scale = 1.0
+
+[module/xwindow]
+type = internal/xwindow
+label = [%title:0:30:...%]
+format-background =
+format-underline =
+
+[module/bspwm]
+type = internal/bspwm
+
+;label-separator = |
+format-underline =
+format-background =
+format-padding =
+
+label-focused = %name%
+label-focused-background = #282828
+label-focused-foreground = ${colors.foreground}
+;label-focused-underline= ${colors.underline}
+label-focused-padding = 1
+
+; occupied
+label-occupied = %name%
+label-occupied-padding = 1
+
+; unfocused
+label-unfocused = %name%
+label-unfocused-padding = 1
+
+; empty
+label-empty = %name%
+label-empty-foreground = ${colors.foregroundAlt}
+label-empty-padding = 1
+
+; urgent
+label-urgent = %name%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
+
+[module/disk]
+type = custom/script
+exec = s_disk.sh
+interval = 20
+
+[module/timeanddate]
+type = custom/script
+exec = date +"%I:%M:%S %p"
+interval = 1
+
+[module/backlight]
+type = custom/script
+exec = s_backlight.sh
+interval = 1
+
+[module/cputemp]
+type = custom/script
+exec = s_cpu_temp.sh
+interval = 5
+
+[module/outputVolume]
+type = custom/script
+exec = s_output_volume.sh
+scroll-down = amixer -D pulse sset Master 3%-
+scroll-up = amixer -D pulse sset Master 3%+
+click-right = $TERMINAL -e pulsemixer
+interval = 1
+
+[module/inputVolume]
+type = custom/script
+exec = s_input_volume.sh
+scroll-up = amixer -D pulse sset Capture 3%+
+scroll-down = amixer -D pulse sset Capture 3%-
+click-right = $TERMINAL -e pulsemixer
+interval = 2
+
+[module/connectionInfo]
+type = custom/script
+exec = s_connection_info.sh
+interval = 5
+
+[module/battery]
+type = custom/script
+exec = s_battery.sh
+interval = 5
+
+[module/cmus]
+type = custom/script
+exec = cmusStatus.sh
+interval = 1
