@@ -11,4 +11,4 @@
 (setq visible-bell t)
 (load-theme 'tango-dark)
 
-;(set-face-attribute 'default nil :font "monospace" "height 280)
+(set-face-attribute 'default nil :font "iosevka" "height 280)

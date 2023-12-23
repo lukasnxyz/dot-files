@@ -1,2 +1,0 @@
-alias todo='ag "\TODO" $VIMWIKIINDEXONE --nocolor --no-numbers'
-alias utodo='ag "\TODO" $VIMWIKIINDEXTWO --nocolor --no-numbers'
