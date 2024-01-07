@@ -16,8 +16,8 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray             = 1;   /* 0 means no systray */
 static const int showbar                 = 1;   /* 0 means no bar */
 static const int topbar                  = 1;   /* 0 means bottom bar */
-static const char *fonts[]               = { "termono:size=19", "FontAwesome:size=12" };
-static const char dmenufont[]            = "termono:size=19";
+static const char *fonts[]               = { "iosevka:size=14"};
+static const char dmenufont[]            = "iosevka:size=14";
 static const char col_gray1[]            = "#222222"; // #222222
 static const char col_gray2[]            = "#444444"; // #444444
 static const char col_gray3[]            = "#bbbbbb"; // #bbbbbb
@@ -78,7 +78,7 @@ static const char *cmdcapturetoggle[]  = { "amixer", "-q", "sset", "Capture", "t
 static Key keys[] = {
     /* modifier                     key        function        argument */
 
-    // applications
+    /* applications */
     { MODKEY,                       XK_p,      spawn,          {.v = cmddmenu } },
     { 0,                   XF86XK_Search,      spawn,          {.v = cmddmenu } },
     { MODKEY,                  XK_Return,      spawn,          SHCMD("$TERMINAL") },
@@ -89,30 +89,24 @@ static Key keys[] = {
     { MODKEY,                       XK_s,      spawn,          {.v = cmdscreenshot } },
     { MODKEY,                       XK_c,      spawn,          SHCMD("xcalc") },
     { MODKEY,                   XK_grave,      spawn,          SHCMD("clipmenu -p clipboard") },
-    { MODKEY|ShiftMask,         XK_grave,      spawn,          SHCMD("dmenu_accent_letters.sh") },
-    { MODKEY|ShiftMask,             XK_m,      spawn,          SHCMD("arandr") },
-    { MODKEY,                      XK_F1,      spawn,          SHCMD("systemctl suspend") },
+    { MODKEY,                       XK_v,      spawn,          SHCMD("dmenu_accent_letters.sh") },
+    { MODKEY|ShiftMask,             XK_k,      spawn,          SHCMD("xset r rate 300 50") },
+    { MODKEY|ShiftMask,             XK_m,      spawn,          SHCMD("autorandr --change") },
+    { MODKEY|ShiftMask,             XK_s,      spawn,          SHCMD("systemctl suspend") },
 
-    // media keys
-    { MODKEY,                       XK_u,      spawn,          {.v = cmdsoundup } },
+    /* media keys */
     { 0,         XF86XK_AudioRaiseVolume,      spawn,          {.v = cmdsoundup } },
     { 0,         XF86XK_AudioLowerVolume,      spawn,          {.v = cmdsounddown } },
-    { MODKEY,                       XK_d,      spawn,          {.v = cmdsounddown } },
-    { MODKEY,                       XK_o,      spawn,          {.v = cmdsoundtoggle } },
     { 0,                XF86XK_AudioMute,      spawn,          {.v = cmdsoundtoggle } },
-    { MODKEY|ShiftMask,             XK_o,      spawn,          SHCMD("amixer set Master 0 && amixer set Master off") },
     { MODKEY,                      XK_F9,      spawn,          {.v = cmdcapturetoggle } },
-    { 0,             XF86XK_AudioMicMute,      spawn,          {.v = cmdcapturetoggle } },
-    { MODKEY,                     XK_F12,      spawn,          SHCMD("playerctl next") },
     { 0,                XF86XK_AudioNext,      spawn,          SHCMD("playerctl next") },
-    { MODKEY,                     XK_F11,      spawn,          SHCMD("playerctl play-pause") },
     { 0,                XF86XK_AudioPlay,      spawn,          SHCMD("playerctl play-pause") },
-    { MODKEY,                     XK_F10,      spawn,          SHCMD("playerctl previous") },
     { 0,                XF86XK_AudioPrev,      spawn,          SHCMD("playerctl previous") },
     { 0,          XF86XK_MonBrightnessUp,      spawn,          SHCMD("xbacklight -inc 5") },
+    { 0,             XF86XK_AudioMicMute,      spawn,          {.v = cmdcapturetoggle } },
     { 0,        XF86XK_MonBrightnessDown,      spawn,          SHCMD("xbacklight -dec 5") },
 
-    // dwm keys
+    /* dwm keys */
     { MODKEY,                       XK_b,      togglebar,      {0} },
     { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
     { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -131,18 +125,18 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
     { MODKEY|ShiftMask,     XK_BackSpace,      quit,           {0} },
 
-    // navigation with multiple monitors
+    /* navigation with multiple monitors */
     { MODKEY,               XK_semicolon,      focusmon,       {.i = -1 } },
     { MODKEY,              XK_apostrophe,      focusmon,       {.i = +1 } },
     { MODKEY|ShiftMask,     XK_semicolon,      tagmon,         {.i = -1 } },
     { MODKEY|ShiftMask,    XK_apostrophe,      tagmon,         {.i = +1 } },
 
-    // layouts
+    /* layouts */
     { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
     { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} },
     { MODKEY,                       XK_n,      setlayout,      {.v = &layouts[2]} },
 
-    // tags
+    /* tags */
     TAGKEYS(                        XK_1,                      0)
     TAGKEYS(                        XK_2,                      1)
     TAGKEYS(                        XK_3,                      2)

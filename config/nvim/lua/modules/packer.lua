@@ -13,8 +13,8 @@ return require('packer').startup(function(use)
     use 'airblade/vim-gitgutter'
     use 'jamessan/vim-gnupg'
     use 'vimwiki/vimwiki'
-    use 'nanotech/jellybeans.vim'
     use 'nvim-treesitter/nvim-treesitter'
+    use 'nanotech/jellybeans.vim'
 
     use {
         'VonHeikemen/lsp-zero.nvim',

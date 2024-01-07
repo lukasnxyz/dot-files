@@ -1,10 +1,9 @@
 # color
 autoload -U colors && colors
 
-#colorscript -r
 # prompt
-#PS1="%{$fg[cyan]%}%~%{$fg[white]%} >%{$reset_color%} "
-PS1="[%n@%M $fg[cyan]%~$fg[white]]%{$reset_color%}$ "
+PS1="%{$fg[cyan]%}%~%{$fg[white]%} >%{$reset_color%} "
+#PS1="[%n@%M $fg[cyan]%~$fg[white]]%{$reset_color%}$ "
 
 # history
 HISTSIZE=1000000
@@ -49,27 +48,26 @@ bindkey -v '^R' history-incremental-search-backward
 # change cursor shape for different vi modes (change 3 or 5 for underline or beam)
 function zle-keymap-select {
   if [[ ${KEYMAP} == vicmd ]] ||
-     [[ $1 = 'beam' ]]; then
-     echo -ne '\e[1 q'
+     [[ $1 = 'underline' ]]; then
+     echo -ne '\e[3 q'
   elif [[ ${KEYMAP} == main ]] ||
        [[ ${KEYMAP} == viins ]] ||
        [[ ${KEYMAP} = '' ]] ||
        [[ $1 = 'block' ]]; then
-       echo -ne '\e[5 q'
+       echo -ne '\e[1 q'
   fi
 }
 
 zle -N zle-keymap-select
 zle-line-init() {
         zle -K viins
-        echo -ne "\e[5 q"
+        echo -ne "\e[1 q"
 }
 
 zle -N zle-line-init
-echo -ne '\e[5 q'
-preexec() { echo -ne '\e[5 q' ;}
+echo -ne '\e[1 q'
+preexec() { echo -ne '\e[1 q' ;}
 
-source ~/.local/share/aliasrc
 # custom aliases
 alias ls='/bin/ls --color=auto'
 alias ll='/bin/ls --color=auto -s -l -A'
@@ -80,4 +78,7 @@ alias rm='/bin/rm -v'
 alias q='exit'
 alias ka='/bin/killall'
 alias s='/bin/systemctl'
-alias ac='/usr/bin/vim $HOME/doc/pw.txt'
+alias ac='/usr/bin/vim $HOME/doc/pw.txt.gpg'
+alias vim='/usr/bin/nvim'
+
+source ~/.local/share/aliasrc

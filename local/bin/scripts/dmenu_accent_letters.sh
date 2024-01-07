@@ -1,6 +1,7 @@
 #!/bin/sh
 
 declare -a options=(
+"€"
 "ä"
 "Ä"
 "ö"
@@ -11,7 +12,7 @@ declare -a options=(
 "ẞ"
 )
 
-choice=$(printf '%s\n' "${options[@]}" | dmenu -i -l 8 -p 'accent marks')
+choice=$(printf '%s\n' "${options[@]}" | dmenu -i -l 9 -p 'accent marks')
 
 if [ "$choice" ]; then
     cfg=$(printf '%s\n' "${choice}" | awk '{printf $NF}')

@@ -2,54 +2,38 @@
 # dwm status using xset root
 
 printDate(){
-    echo "$(date +"%a, %d %b %C%g, %I:%M:%S %P")"
-}
-
-printIp() {
-    echo "$(ip route get 8.8.8.8 2>/dev/null | grep -Eo 'src [0-9.]+' | grep -Eo '[0-9.]+')"
-}
-
-printCpuTemp() {
-    echo "$(head -c 2 /sys/class/thermal/thermal_zone0/temp | sed 's/$/°C/')"
-}
-
-printMemory() {
-    echo $(($(grep -m1 'MemAvailable:' /proc/meminfo | awk '{print $2}') / 1024))
+    echo "$(date +"%a %d %b, %C%g, %H:%M")"
 }
 
 printBacklight() {
     echo " $(xbacklight -get | sed 's/\.[0-9]*//' | sed 's/$/%/')"
 }
 
-printDisk() {
-    echo "/$(df -h / | awk '{print $3}' | sed -n '1!p')"
-}
-
-printNetworkSpeeds() {
-    logfile=/dev/shm/netlog
-    [ -f "$logfile" ] || echo "0 0" > "$logfile"
-    read -r rxprev txprev < "$logfile"
-    rxcurrent="$(($(paste -d '+' /sys/class/net/[ew]*/statistics/rx_bytes)))"
-    txcurrent="$(($(paste -d '+' /sys/class/net/[ew]*/statistics/tx_bytes)))"
-    echo "$(bc <<< "scale=2; ($rxcurrent-$rxprev) / 10^6")" "$(bc <<< "scale=2; ($txcurrent-$txprev) / 10^6")"
-    echo "$rxcurrent $txcurrent" > "$logfile"
-}
-
 printBattery() {
     duo=$(awk '{ sum += $1 } END { print sum }' /sys/class/power_supply/BAT*/energy_now)
     max=$(awk '{ sum += $1 } END { print sum }' /sys/class/power_supply/BAT*/energy_full)
-    total=$(bc <<< "scale=2; $duo/$max")
-    final=($total * 10)
-    low=(0.15)
-    echo "$final%"
-}
+    bat0=$(cat /sys/class/power_supply/BAT0/status)
 
-printInputVolume() {
-    if [[ $(amixer sget Capture | grep 'Left:' | awk -F '[][]' '{ print $4 }') = "on" ]]; then
-        echo "(i)$(amixer sget Capture | grep 'Left:' | awk -F '[][]' '{ print $2 }')"
+    total=$(bc <<< "scale=2; $duo/$max")
+    final=$(bc <<< "$total * 100" | cut -d'.' -f1)
+
+    if [ "$bat0" == "Charging" ]; then
+        icon=" "
     else
-        echo "(i)"
+        if [ $final -ge 90 ]; then
+            icon=" "
+        elif [ $final -lt 90 ] && [ $final -ge 70 ]; then
+            icon=" "
+        elif [ $final -lt 70 ] && [ $final -ge 40 ]; then
+            icon=" "
+        elif [ $final -lt 40 ] && [ $final -ge 10 ]; then
+            icon=" "
+        elif [ $final -lt 10 ]; then
+            icon=" !!"
+        fi
     fi
+
+    echo "$icon$final%"
 }
 
 printOutputVolume() {
@@ -57,7 +41,7 @@ printOutputVolume() {
     if [[ $output = "on" ]]; then
         output=$(echo " $(amixer sget Master | grep 'Right:' | awk -F '[][]' '{ print $2 }' | tr -d ' ')")
     else
-        output=$(echo "M")
+        output=$(echo "")
     fi
     echo "$output"
 }
