@@ -1,7 +1,7 @@
 ### Personal dot files
 These are all the very basic things that I use and have configured on my Arch/Suckless system.
 
-<blockquote class="imgur-embed-pub" lang="en" data-id="a/tUWKV8h" data-context="false" ><a href="//imgur.com/a/tUWKV8h"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>
+<html><blockquote class="imgur-embed-pub" lang="en" data-id="a/tUWKV8h"  ><a href="//imgur.com/a/tUWKV8h"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script></html>
 
 #### Setup programs in `local/src/`
 In each respective directory, download the source code for each program from
