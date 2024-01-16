@@ -1,6 +1,8 @@
 ### Personal dot files
 These are all the very basic things that I use and have configured on my Arch/Suckless system.
 
+<img src="https://imgur.com/a/tUWKV8h" width="50%"/>
+
 #### Setup programs in `local/src/`
 In each respective directory, download the source code for each program from
 [suckless.org](https://suckless.org/). Then replace `config.def.h` with mine. Also apply the
