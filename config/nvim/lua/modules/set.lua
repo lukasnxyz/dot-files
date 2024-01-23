@@ -24,10 +24,7 @@ vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
 vim.opt.compatible = false
-vim.opt.termguicolors = true
-
-vim.opt.scrolloff = 8
-
-vim.opt.updatetime = 50
-
 vim.opt.laststatus = 0
+vim.opt.scrolloff = 8
+vim.opt.updatetime = 50
+vim.opt.ai = true
