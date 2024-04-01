@@ -1,12 +1,6 @@
-[colors.bright]
-black = "0x404040"
-blue = "0x4e9fb1"
-cyan = "0x42717b"
-green = "0xa0cf5d"
-magenta = "0x8542ff"
-red = "0xd23d3d"
-white = "0xdddddd"
-yellow = "0xf39d21"
+[colors.primary]
+background = "#111111"
+foreground = "#ffffff"
 
 [colors.normal]
 black = "0x101010"
@@ -18,32 +12,56 @@ red = "0xe84f4f"
 white = "0xdddddd"
 yellow = "0xe1aa5d"
 
-[colors.primary]
-background = "#121212"
-#background = "#1e1e1e"
-foreground = "0xd7d0c7"
+#black =   "#000000"
+#red =     "#cc0403"
+#green =   "#19cb00"
+#yellow =  "#cecb00"
+#blue =    "#0d73cc"
+#magenta = "#cb1ed1"
+#cyan =    "#0dcdcd"
+#white =   "#dddddd"
+
+[colors.bright]
+black = "0x404040"
+blue = "0x4e9fb1"
+cyan = "0x42717b"
+green = "0xa0cf5d"
+magenta = "0x8542ff"
+red = "0xd23d3d"
+white = "0xdddddd"
+yellow = "0xf39d21"
+
+#[colors.bright]
+#black = "#767676"
+#red = "#f2201f"
+#green = "#23fd00"
+#yellow = "#fffd00"
+#blue = "#1a8fff"
+#magenta = "#fd28ff"
+#cyan = "#14ffff"
+#white = "#ffffff"
 
 [cursor.style]
 shape = "Block"
 
 [font]
-size = 11
-
-[font.bold]
-family = "iosevka"
-style = "Bold"
-
-[font.bold_italic]
-family = "iosevka"
-style = "Bold Italic"
-
-[font.italic]
-family = "iosevka"
-style = "Italic"
+size = 10.0
 
 [font.normal]
-family = "iosevka"
+family = "IosevkaTerm Nerd Font Mono"
 style = "Regular"
+
+[font.bold]
+family = "IosevkaTerm Nerd Font Mono"
+style = "Bold"
+
+[font.italic]
+family = "IosevkaTerm Nerd Font Mono"
+style = "Italic"
+
+[font.bold_italic]
+family = "IosevkaTerm Nerd Font Mono"
+style = "Bold Italic"
 
 [[keyboard.bindings]]
 action = "Paste"
@@ -76,7 +94,8 @@ history = 10000
 [window]
 dynamic_padding = true
 opacity = 1.0
+padding = { x = 1, y = 1 }
 
 [window.dimensions]
-columns = 170
-lines = 45
+columns = 140
+lines = 35

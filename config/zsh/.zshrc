@@ -2,8 +2,10 @@
 autoload -U colors && colors
 
 # prompt
-PS1="%{$fg[cyan]%}%~%{$fg[white]%} >%{$reset_color%} "
-#PS1="[%n@%M $fg[cyan]%~$fg[white]]%{$reset_color%}$ "
+#PS1="%{$fg[cyan]%}%~%{$fg[white]%} >%{$reset_color%} "
+#PS1="%n@%M:$fg[cyan]%~$fg[white]%{$reset_color%}# "
+PS1="%n@%M $fg[white]%~$fg[white]%{$reset_color%} %% "
+#PS1="$fg[blue]%M $fg[green]%~$fg[blue] >%{$reset_color%} "
 
 # history
 HISTSIZE=1000000
@@ -70,7 +72,7 @@ preexec() { echo -ne '\e[1 q' ;}
 
 # custom aliases
 alias ls='/bin/ls --color=auto'
-alias ll='/bin/ls --color=auto -s -l -A'
+alias ll='/bin/ls --color=auto -s -l -A --group-directories-first'
 alias grep='/bin/grep --color=auto'
 alias cp='/bin/cp -iv'
 alias mv='/bin/mv -iv'
@@ -78,7 +80,5 @@ alias rm='/bin/rm -v'
 alias q='exit'
 alias ka='/bin/killall'
 alias s='/bin/systemctl'
-alias ac='/usr/bin/vim $HOME/doc/pw.txt.gpg'
-alias vim='/usr/bin/nvim'
-
-source ~/.local/share/aliasrc
+alias ac='/usr/bin/vim $HOME/Dokumente/pw.txt.gpg'
+alias vim='/snap/bin/nvim'

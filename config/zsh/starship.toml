@@ -1,0 +1,16 @@
+format = "$hostname$directory$git_branch$character"
+add_newline = false
+
+[character]
+success_symbol = '[❯](bold green)'
+error_symbol = '[❯](bold red)'
+
+[hostname]
+ssh_only = false
+
+[directory]
+truncation_length = 15
+truncation_symbol = './'
+
+# prompt in .zshrc
+#eval "$(starship init zsh)"
