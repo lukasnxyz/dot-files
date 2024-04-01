@@ -48,19 +48,19 @@ shape = "Block"
 size = 10.0
 
 [font.normal]
-family = "IosevkaTerm Nerd Font Mono"
+family = "Iosevka Term"
 style = "Regular"
 
 [font.bold]
-family = "IosevkaTerm Nerd Font Mono"
+family = "Iosevka Term"
 style = "Bold"
 
 [font.italic]
-family = "IosevkaTerm Nerd Font Mono"
+family = "Iosevka Term"
 style = "Italic"
 
 [font.bold_italic]
-family = "IosevkaTerm Nerd Font Mono"
+family = "Iosevka Term"
 style = "Bold Italic"
 
 [[keyboard.bindings]]
