@@ -16,6 +16,7 @@
 
 # check if Ubuntu (apt) or Arch (pacman)
 # sudo apt install -y neovim alacritty tmux zsh
+# account for what's installed via snap and via apt/pacman
 
 # change user shell to zsh
 
