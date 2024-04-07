@@ -1,5 +1,6 @@
 -- options
 vim.opt.nu = true
+vim.opt.nu = true
 vim.opt.relativenumber = true
 
 vim.opt.scrolloff = 8
@@ -28,6 +29,9 @@ vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.undodir = os.getenv("HOME") .. "/.local/share/nvim/undodir"
 vim.opt.undofile = true
+vim.opt.clipboard:append("unnamedplus")
+
+vim.api.nvim_set_hl(0, "SignColumn", { bg = "none"})
 
 -- autocmd's
 vim.cmd([[autocmd FileType tex setlocal wrap tw=100]])
@@ -75,6 +79,7 @@ vim.keymap.set("n", "<leader><BS>", ":browse buffers<CR>")
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("n", "gp", "`[v`]")
 
 vim.cmd([[command! W write]])
 
@@ -89,3 +94,6 @@ autocmd('FileType', {
   pattern = 'netrw',
   command = 'setl bufhidden=wipe'
 })
+
+-- manage plugins (lsp and treesitter)
+require "packer"
