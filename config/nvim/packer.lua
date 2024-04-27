@@ -6,6 +6,7 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
 	use 'nvim-treesitter/nvim-treesitter'
+	use{'metalelf0/jellybeans-nvim', requires = {'rktjmp/lush.nvim'}}
 
 	use {
 		'VonHeikemen/lsp-zero.nvim',

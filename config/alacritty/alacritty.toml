@@ -1,5 +1,5 @@
 [colors.primary]
-background = "#111111"
+background = "#121212"
 foreground = "#ffffff"
 
 [colors.normal]
@@ -45,7 +45,7 @@ yellow = "0xf39d21"
 shape = "Block"
 
 [font]
-size = 10.0
+size = 10.5
 
 [font.normal]
 family = "Iosevka Term"

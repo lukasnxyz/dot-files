@@ -2,10 +2,7 @@
 autoload -U colors && colors
 
 # prompt
-#PS1="%{$fg[cyan]%}%~%{$fg[white]%} >%{$reset_color%} "
-#PS1="%n@%M:$fg[cyan]%~$fg[white]%{$reset_color%}# "
-PS1="%n@%M $fg[white]%~$fg[white]%{$reset_color%} %% "
-#PS1="$fg[blue]%M $fg[green]%~$fg[blue] >%{$reset_color%} "
+PS1="$fg[green]%n$fg[white]@$fg[green]%M $fg[blue]%~%{$reset_color%} $ "
 
 # history
 HISTSIZE=1000000
@@ -80,5 +77,6 @@ alias rm='/bin/rm -v'
 alias q='exit'
 alias ka='/bin/killall'
 alias s='/bin/systemctl'
-alias ac='/usr/bin/vim $HOME/Dokumente/pw.txt.gpg'
+alias ac='/usr/bin/vim $HOME/Documents/pw.txt.gpg'
 alias vim='/snap/bin/nvim'
+alias t='tree'
