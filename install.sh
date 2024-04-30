@@ -27,14 +27,16 @@ export XDG_CACHE_HOME=${CACHE_DIR}
 
 printf "%s%s%s\n" $COLOR_GREEN "2. Installing packages: ${packages}" $COLOR_RESET
 packages="zsh alacritty neovim tmux"
-sudo apt install -y ${packages} # Ubuntu(apt), Arch(pacman), Fedora(dnf)
+#dev_packages="python3" # add all development packages 
+sudo apt-get update 
+sudo apt-get install -y ${packages} # Ubuntu(apt), Arch(pacman), Fedora(dnf)
 
 printf "%s%s%s\n" $COLOR_GREEN "3. Installing configuration files" $COLOR_RESET
 config=("alacritty/", "nvim/", "tmux/", "zsh/")
 home=(".zshenv")
 for c in "${config[@]}"
 do
-	cp -v -r ${c} ${CONFIG_DIR}
+	cp -v -r ${c} ${CONFIG_DIR} # commas after each is messing up
 done
 for c in "${home[@]}"
 do
