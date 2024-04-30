@@ -3,7 +3,8 @@
 # check if XDG things are set
 # check if laptop and if so, install auto-cpufreq?
 # (check if current dir is dot-files) git clone this repo: https://github.com/lukasnxyz/dot-files
-echo "\033[4;32mInstalling dot-files"
+COLOR_GREEN="$(tput setaf 2)"
+printf "%s%s\n" $COLOR_GREEN "Installing dot-files"
 
 echo "\t\033[1;32m1. Installing packages: ${packages}"
 packages="zsh alacritty neovim tmux"
