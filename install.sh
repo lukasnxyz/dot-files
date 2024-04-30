@@ -24,8 +24,8 @@ export XDG_CONFIG_HOME=${CONFIG_DIR}
 export XDG_DATA_HOME=${DATA_DIR}
 export XDG_CACHE_HOME=${CACHE_DIR}
 
-# check if laptop and if so, install auto-cpufreq?
 # (check if current dir is dot-files) git clone this repo: https://github.com/lukasnxyz/dot-files
+# check if laptop and if so, install auto-cpufreq?
 
 packages="zsh alacritty neovim tmux"
 printf "%s%s%s\n" $COLOR_GREEN "2. Installing packages: ${packages}" $COLOR_RESET
@@ -38,11 +38,11 @@ home=(".zshenv")
 printf "%s%s%s\n" $COLOR_GREEN "3. Installing configuration files" $COLOR_RESET
 for c in "${config[@]}"
 do
-	cp -v -r ${c} ${CONFIG_DIR} # commas after each is messing up
+	cp -v -r ${c} ${CONFIG_DIR} # !!!commas after each is messing up
 done
 for c in "${home[@]}"
 do
-	cp -v -r ${c} ${HOME_DIR}
+	cp -v -r ${c} ${HOME_DIR} # !!!commas after each is messing up
 done
 
 printf "%s%s%s\n" $COLOR_GREEN "4. Changing default shell to zsh" $COLOR_RESET
