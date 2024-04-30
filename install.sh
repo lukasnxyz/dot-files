@@ -10,11 +10,13 @@ printf "%s%s%s\n" $COLOR_GREEN "1. Setting up directories" $COLOR_RESET
 CONFIG_DIR="$HOME/.config/"
 CACHE_DIR="$HOME/.cache/"
 DATA_DIR="$HOME/.local/share/"
+BIN_DIR="$HOME/.local/bin/"
 HOME_DIR="$HOME/"
 
 mkdir -vp ${CONFIG_DIR}
 mkdir -vp ${DATA_DIR}
 mkdir -vp ${CACHE_DIR}
+mkdir -vp ${BIN_DIR}
 mkdir -vp "${CACHE_DIR}/zsh/"
 mkdir -vp "${DATA_DIR}/nvim/undodir/"
 
