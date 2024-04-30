@@ -10,11 +10,11 @@ COLOR_RED="$()"
 
 printf "%s%s%s\n" $COLOR_GREEN "Installing dot-files" $COLOR_RESET
 
-printf "%s%s%s\n" $COLOR_GREEN "\n\t1. Installing packages: ${packages}" $COLOR_RESET
+printf "\n\t%s%s%s\n" $COLOR_GREEN "1. Installing packages: ${packages}" $COLOR_RESET
 packages="zsh alacritty neovim tmux"
 sudo apt install -y ${packages} # Ubuntu(apt), Arch(pacman), Fedora(dnf)
 
-printf "%s%s%s\n" $COLOR_GREEN "\n\t2. Installing configuration files" $COLOR_RESET
+printf "\n\t%s%s%s\n" $COLOR_GREEN "2. Installing configuration files" $COLOR_RESET
 configs=("alacritty/", "nvim/", ".zshenv", "zsh/", "tmux/")
 
 #packages_install=""
@@ -25,5 +25,5 @@ configs=("alacritty/", "nvim/", ".zshenv", "zsh/", "tmux/")
 #	packages_install="${packages_install}${p} " 
 #done
 
-printf "%s%s%s\n" $COLOR_GREEN "\n\t3. Changing default shell to zsh" $COLOR_RESET
+printf "\n\t%s%s%s\n" $COLOR_GREEN 3. Changing default shell to zsh" $COLOR_RESET
 #chsh -s /usr/bin/zsh
