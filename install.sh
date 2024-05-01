@@ -7,34 +7,36 @@ COLOR_RED="$()"
 printf "%s%s%s\n\n" $COLOR_GREEN "Installing dot-files" $COLOR_RESET
 
 printf "%s%s%s\n" $COLOR_GREEN "1. Setting up directories" $COLOR_RESET
-CONFIG_DIR="$HOME/.config/"
-CACHE_DIR="$HOME/.cache/"
-DATA_DIR="$HOME/.local/share/"
-BIN_DIR="$HOME/.local/bin/"
-HOME_DIR="$HOME/"
+CONFIG_DIR="$HOME/.config"
+CACHE_DIR="$HOME/.cache"
+DATA_DIR="$HOME/.local/share"
+BIN_DIR="$HOME/.local/bin"
+HOME_DIR="$HOME"
 
 mkdir -vp ${CONFIG_DIR}
 mkdir -vp ${DATA_DIR}
 mkdir -vp ${CACHE_DIR}
 mkdir -vp ${BIN_DIR}
-mkdir -vp "${CACHE_DIR}/zsh/"
-mkdir -vp "${DATA_DIR}/nvim/undodir/"
+mkdir -vp "${CACHE_DIR}zsh/"
+mkdir -vp "${DATA_DIR}/nvim/undodir"
 
 export XDG_CONFIG_HOME=${CONFIG_DIR}
 export XDG_DATA_HOME=${DATA_DIR}
 export XDG_CACHE_HOME=${CACHE_DIR}
 
+packages="zsh alacritty neovim tmux"
+#dev_packages="python3" # add all development packages 
+config=("alacritty/", "nvim/", "tmux/", "zsh/")
+bins=(".local/bin/scripts/")
+home=(".zshenv")
+
 # (check if current dir is dot-files) git clone this repo: https://github.com/lukasnxyz/dot-files
 # check if laptop and if so, install auto-cpufreq?
 
-packages="zsh alacritty neovim tmux"
 printf "%s%s%s\n" $COLOR_GREEN "2. Installing packages: ${packages}" $COLOR_RESET
-#dev_packages="python3" # add all development packages 
 sudo apt-get update 
 sudo apt-get install -y ${packages} # Ubuntu(apt), Arch(pacman), Fedora(dnf)
 
-config=("alacritty/", "nvim/", "tmux/", "zsh/")
-home=(".zshenv")
 printf "%s%s%s\n" $COLOR_GREEN "3. Installing configuration files" $COLOR_RESET
 for c in "${config[@]}"
 do
