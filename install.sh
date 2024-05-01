@@ -38,7 +38,7 @@ sudo apt-get update
 sudo apt-get install -y ${packages} # Ubuntu(apt), Arch(pacman), Fedora(dnf)
 
 printf "%s%s%s\n" $COLOR_GREEN "3. Installing configuration files" $COLOR_RESET
-for c in "${config[@]}"
+for c in "${config[@]%,}"
 do
 	cp -v -r ${c} ${CONFIG_DIR} # !!!commas after each is messing up
 done
