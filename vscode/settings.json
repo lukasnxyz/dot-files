@@ -1,0 +1,29 @@
+{
+    "window.menuBarVisibility": "toggle",
+    "C_Cpp.default.compilerPath": "/usr/bin/clang",
+    "vim.handleKeys": {
+        "<C-d>": true,
+        "<C-s>": false,
+        "<C-z>": false
+    },
+    "keyboard.dispatch": "keyCode",
+    "editor.fontFamily": "Iosevka",
+    "terminal.integrated.fontFamily": "monospace",
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    "security.workspace.trust.untrustedFiles": "open",
+    "explorer.confirmDragAndDrop": false,
+    "javascript.updateImportsOnFileMove.enabled": "always",
+    "editor.minimap.enabled": false,
+    "git.enableSmartCommit": true,
+    "editor.tabSize": 2,
+    "editor.fontSize": 13,
+    "window.restoreWindows": "none",
+    "editor.autoClosingQuotes": "never",
+    "html.autoCreateQuotes": false,
+    "extensions.ignoreRecommendations": true,
+    "git.openRepositoryInParentFolders": "never",
+    "editor.lightbulb.enabled": "off",
+    "git.confirmSync": false
+}
