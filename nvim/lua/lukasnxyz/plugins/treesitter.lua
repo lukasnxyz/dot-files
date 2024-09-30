@@ -16,7 +16,6 @@ return {
       indent = { enable = true },
       autotag = { enable = true },
       ensure_installed = {
-        "json",
         "markdown",
         "markdown_inline",
         "bash",
