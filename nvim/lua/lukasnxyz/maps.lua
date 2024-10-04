@@ -5,6 +5,7 @@ vim.keymap.set("n", "<leader>r", ":%s///g<Left><Left><Left>")
 vim.keymap.set("n", "<leader>l", ":set list!<cr>")
 vim.keymap.set("n", "<leader>s", ":set hlsearch!<cr>")
 vim.keymap.set("n", "<leader>f", ":Lexplore<cr>")
+vim.keymap.set("n", "<leader>t", ":!")
 
 vim.keymap.set("n", "<leader>bn", ":bnext<cr>")
 vim.keymap.set("n", "<leader>bp", ":bprevious<cr>")

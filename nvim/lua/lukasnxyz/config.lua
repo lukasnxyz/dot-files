@@ -15,7 +15,7 @@ vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "python",
+  pattern = { "python", "markdown" },
   callback = function()
     vim.opt_local.tabstop = 2
     vim.opt_local.shiftwidth = 2
