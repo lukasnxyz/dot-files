@@ -13,6 +13,7 @@ vim.opt.hlsearch = false
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
+--vim.opt.colorcolumn = "100"
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "python", "markdown" },
