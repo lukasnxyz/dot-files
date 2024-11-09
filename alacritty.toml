@@ -1,0 +1,30 @@
+[colors.primary]
+background = "#1c1c1c"
+foreground = "#ffffff"
+
+[font]
+size = 12
+
+[font.normal]
+family = "Iosevka Term"
+style = "Regular"
+
+[font.bold]
+family = "Iosevka Term"
+style = "Bold"
+
+[font.italic]
+family = "Iosevka Term"
+style = "Italic"
+
+[font.bold_italic]
+family = "Iosevka Term"
+style = "Bold Italic"
+
+#[window]
+#decorations = "None"
+
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"

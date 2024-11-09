@@ -2,10 +2,11 @@ return {
   --"tomasiser/vim-code-dark",
   --"catppuccin/nvim",
   --"bluz71/vim-moonfly-colors",
-  "EdenEast/nightfox.nvim",
+  --"EdenEast/nightfox.nvim",
+  "blazkowolf/gruber-darker.nvim",
   lazy = false,
   priority = 1000,
   config = function()
-    vim.cmd("colorscheme carbonfox")
+    vim.cmd("colorscheme gruber-darker")
   end,
 }

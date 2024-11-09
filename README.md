@@ -10,3 +10,8 @@ Install configs and packages
 chmod +x install.sh
 ./install.sh
 ```
+
+
+#### Things to change/install
+vm.swappiness = 1
+auto-cpufreq
