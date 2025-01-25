@@ -3,26 +3,16 @@ vim.opt.relativenumber = true
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 
-vim.opt.listchars = "space:·,tab:->>"
-
 vim.opt.autoindent = true
 vim.opt.wrap = false
 vim.opt.showcmd = true
 vim.opt.hlsearch = false
 
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
+vim.o.listchars = "tab:··,trail:-,extends:>,precedes:<,space:·"
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "python", "markdown", "rust" },
-  callback = function()
-    vim.opt_local.tabstop = 2
-    vim.opt_local.shiftwidth = 2
-    vim.opt_local.softtabstop = 2
-    vim.opt_local.expandtab = true
-  end,
-})
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 
 vim.opt.backup = false
 vim.opt.swapfile = false
@@ -44,4 +34,10 @@ local autocmd = vim.api.nvim_create_autocmd
 autocmd('FileType', {
   pattern = 'netrw',
   command = 'setl bufhidden=wipe'
+})
+
+-- remove trailing whitespaces on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
+  command = [[%s/\s\+$//e]],
 })

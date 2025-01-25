@@ -2,6 +2,7 @@ vim.g.mapleader = " "
 
 vim.keymap.set("n", "<leader>r", ":%s///g<Left><Left><Left>")
 
+vim.keymap.set("n", "<leader>n", ":set number! relativenumber!<cr>")
 vim.keymap.set("n", "<leader>l", ":set list!<cr>")
 vim.keymap.set("n", "<leader>s", ":set hlsearch!<cr>")
 vim.keymap.set("n", "<leader>f", ":Lexplore<cr>")
