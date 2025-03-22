@@ -1,0 +1,19 @@
+{
+    "C_Cpp.default.compilerPath": "/usr/bin/g++",
+    "workbench.startupEditor": "none",
+    "rust-analyzer.inlayHints.typeHints.enable": false,
+    "editor.minimap.enabled": false,
+    "keyboard.dispatch": "keyCode",
+    "chat.commandCenter.enabled": false,
+    "vim.handleKeys": {
+        "<C-p>": false,
+        "<C-b>": false,
+        "<C-n>": false,
+        "<C-f>": false,
+    },
+    "workbench.activityBar.location": "top",
+    "editor.inlayHints.enabled": "off",
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.autoClosingComments": "never",
+    "files.trimTrailingWhitespace": true,
+}

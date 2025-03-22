@@ -7,6 +7,9 @@ vim.keymap.set("n", "<leader>l", ":set list!<cr>")
 vim.keymap.set("n", "<leader>s", ":set hlsearch!<cr>")
 vim.keymap.set("n", "<leader>f", ":Lexplore<cr>")
 
+vim.keymap.set("n", "<leader>v", ":vs<cr>")
+vim.keymap.set("n", "<leader>h", ":split<cr>")
+
 vim.keymap.set("n", "<leader>bn", ":bnext<cr>")
 vim.keymap.set("n", "<leader>bp", ":bprevious<cr>")
 vim.keymap.set("n", "<leader>bd", ":bdelete %<cr>")
