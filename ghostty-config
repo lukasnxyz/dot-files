@@ -1,5 +1,5 @@
 font-family = Iosevka Term
-theme = gruber-darker
+theme = dark:gruber-darker, light:"Builtin Light"
 
 window-padding-x = 4
 window-padding-y = 4
