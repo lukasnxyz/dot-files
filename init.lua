@@ -30,8 +30,10 @@ vim.opt.smartindent = true
 -- netrw
 vim.g.netrw_altv = 1
 vim.g.netrw_banner = 0
+vim.g.netrw_winsize = 15
+vim.g.netrw_liststyle = 3
 vim.g.netrw_browse_split = 4
-vim.g.netrw_winsize = 20
+
 vim.api.nvim_create_autocmd('FileType', {
     pattern = 'netrw',
     command = 'setl bufhidden=wipe'
@@ -51,9 +53,6 @@ vim.keymap.set("n", "<leader>n", ":set number! relativenumber!<cr>")
 vim.keymap.set("n", "<leader>l", ":set list!<cr>")
 vim.keymap.set("n", "<leader>s", ":set hlsearch!<cr>")
 
-vim.keymap.set("n", "<leader>v", ":vs<cr>")
-vim.keymap.set("n", "<leader>h", ":split<cr>")
-
 vim.keymap.set("n", "<leader>bn", ":bnext<cr>")
 vim.keymap.set("n", "<leader>bp", ":bprevious<cr>")
 vim.keymap.set("n", "<leader>bd", ":bdelete %<cr>")
@@ -61,6 +60,17 @@ vim.keymap.set("n", "<leader>bd", ":bdelete %<cr>")
 vim.keymap.set("v", "J", ":m '>+1<cr>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<cr>gv=gv")
 vim.keymap.set("n", "gp", "`[v`]")
+
+-- STATUS LINE
+function _G.gitsigns_statusline()
+    local gsd = vim.b.gitsigns_status_dict
+    if gsd and gsd.head ~= "" then
+        return string.format(" [+%s ~%s -%s] | %s ", gsd.added or 0, gsd.changed or 0, gsd.removed or 0, gsd.head)
+    end
+    return ""
+end
+vim.o.laststatus = 2
+vim.o.statusline = "%f %m%r%h%w %=%{v:lua.gitsigns_statusline()}[%l,%c] %p%% %y"
 
 -- LAZY (PLUGINS) --
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -92,6 +102,10 @@ require("lazy").setup({
     {
         "lewis6991/gitsigns.nvim",
         opts = {},
+        config = function()
+            require("gitsigns").setup()
+            vim.keymap.set("n", "<leader>B", "<cmd>Gitsigns blame_line<cr>", { desc = "git blame on current line" })
+        end,
     },
     {
         "nvim-telescope/telescope.nvim",
@@ -120,6 +134,7 @@ require("lazy").setup({
         config = function()
             local cmp = require('cmp')
             local lspconfig = require('lspconfig')
+            local util = lspconfig.util
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
             local opts = { noremap = true, silent = true }
@@ -135,7 +150,18 @@ require("lazy").setup({
                         lspconfig[server_name].setup { capabilities = capabilities }
                     end,
                     ['clangd'] = function()
-                        lspconfig.clangd.setup { capabilities = capabilities }
+                        lspconfig.clangd.setup({
+                            capabilities = capabilities,
+                            filetypes = {"c", "cpp", "h", "hpp"},
+                            root_dir = function(fname)
+                                return util.root_pattern(
+                                    "compile_commands.json",
+                                    "Makefile",
+                                    "configure.ac",
+                                    ".git"
+                                )(fname) or util.path.dirname(fname)
+                            end,
+                        })
                     end,
                     ['lua_ls'] = function()
                         lspconfig.lua_ls.setup {
@@ -174,13 +200,4 @@ require("lazy").setup({
             })
         end
     },
-    --{
-    --    require('plugins.ollama_stream').setup({
-    --        model = "llama3.1",
-    --        system_prompt = [[You are my coding slave that doesn't make any mistakes ever.
-    --        You are a 10x dev that can fix all bugs. Keep your responses as short as possible
-    --        and only give me code in the case that I ask for you to write code.]],
-    --        temperature = 0.7,
-    --    })
-    --},
 })
