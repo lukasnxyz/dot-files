@@ -6,5 +6,5 @@ window-padding-y = 4
 window-padding-balance = true
 window-vsync = true
 
-window-decoration = false
-gtk-titlebar = false
+#window-decoration = false
+#gtk-titlebar = false

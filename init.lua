@@ -120,6 +120,19 @@ require("lazy").setup({
         end,
     },
     {
+        "f-person/auto-dark-mode.nvim",
+        opts = {
+            set_dark_mode = function()
+                vim.cmd("colorscheme gruber-darker")
+            end,
+            set_light_mode = function()
+                vim.cmd("colorscheme retrobox")
+            end,
+            update_interval = 3000,
+            fallback = "dark"
+        }
+    },
+    {
         "neovim/nvim-lspconfig",
         dependencies = {
             "williamboman/mason.nvim",
@@ -201,3 +214,4 @@ require("lazy").setup({
         end
     },
 })
+
