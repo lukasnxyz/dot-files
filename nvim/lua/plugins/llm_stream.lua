@@ -1,5 +1,12 @@
 local M = {}
 
+-- TODO: to be per model not provider
+-- TODO: fix visual mode buffer content
+-- TODO: openrouter setup
+-- TODO: system prompt to set in init.lua config
+-- TODO: message of generation bottom right like rust-analyzer does
+-- TODO: gen everything in () so I can vi(
+
 local config = {
     default_provider = 'ollama',
     providers = {

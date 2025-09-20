@@ -1,0 +1,17 @@
+font-family = Iosevka Term
+font-size = 18
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+theme = dark:"Gruber Darker", light:"Gruvbox Light"
+
+window-padding-x = 4
+window-padding-y = 4
+window-padding-balance = true
+window-vsync = true
+
+#window-decoration = false
+#gtk-titlebar = false
+
+#background-opacity = 0.9
+
