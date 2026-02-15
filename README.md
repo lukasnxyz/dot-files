@@ -1,4 +1,4 @@
+## TODO: list packages and other settings I have set
 - `vm.swappiness = 1`
-- install `auto-cpufreq`
 - set caps to escape
 

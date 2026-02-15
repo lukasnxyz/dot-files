@@ -2,7 +2,7 @@
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn
 # This line obtains information from the vcs.
-zstyle ':vcs_info:git*' formats "- (%b) "
+zstyle ':vcs_info:git*' formats "(%b) "
 precmd() {
     vcs_info
 }
@@ -10,7 +10,7 @@ precmd() {
 # Enable substitution in the prompt.
 setopt prompt_subst
 
-prompt='%n@%m %2/ ${vcs_info_msg_0_}> '
+prompt='%n :: %2/ ${vcs_info_msg_0_}>> '
 
 # Change cursor shape based on vi mode
 function zle-keymap-select {
@@ -75,3 +75,7 @@ alias mv="/bin/mv -iv"
 alias rm="/bin/rm -v"
 alias q="exit"
 alias t="tree -C"
+alias open="xdg-open"
+alias ip="ip -c"
+alias ka="killall"
+alias element-desktop="element-desktop --password-store=gnome-libsecret"
