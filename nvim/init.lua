@@ -1,12 +1,10 @@
-local vim = vim or {}
-
--- GENERAL CONFIGS --
 vim.g.mapleader = " "
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
+vim.opt.foldcolumn = "auto:1"
 vim.opt.clipboard = "unnamedplus"
 
 vim.opt.wrap = false
@@ -14,18 +12,9 @@ vim.opt.hlsearch = true
 vim.opt.listchars = { tab = "··", trail = "-", extends = ">", precedes = "<", space = "·" }
 
 vim.opt.expandtab = true
-vim.opt.shiftwidth = 2
-vim.opt.tabstop = 2
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
 vim.opt.autoindent = true
-
--- per project specific config files (.nvim.lua)
-vim.opt.exrc = true
-vim.opt.secure = true
-
--- special settings for indentation only basically
-vim.g.python_recommended_style = false
-vim.g.markdown_recommended_style = false
-vim.g.rust_recommended_style = false
 
 vim.opt.backup = false
 vim.opt.swapfile = false
@@ -66,18 +55,23 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.keymap.set("n", "<leader>r", ":%s///g<Left><Left><Left>")
 vim.keymap.set("v", "<leader>r", ":s///g<Left><Left><Left>")
 
+vim.keymap.set("n", "<leader>j", function()
+  local date = " " .. os.date("%Y-%m-%d")
+  vim.api.nvim_put({ date }, "c", true, true)
+end, { desc = "insert current date" })
+
 vim.keymap.set("n", "<leader>n", ":set number! relativenumber!<cr>", { desc = "toggle line numbers" })
 vim.keymap.set("n", "<leader>l", ":set list!<cr>", { desc = "toggle listchars" })
 vim.keymap.set("n", "<leader>h", ":set hlsearch!<cr>", { desc = "toggle search highlighting" })
 vim.keymap.set("n", "<leader>=", ":wincmd =<cr>", { desc = "set split size to equal" })
 vim.keymap.set("n", "<leader>R", ":e<cr>", { desc = "reload buffer" })
+vim.keymap.set("n", "<leader>s", ":hs<cr>", { desc = "horizontal split" })
+vim.keymap.set("n", "<leader>S", ":split<cr>", { desc = "vertical split" })
 vim.cmd([[cabbrev W w]])
 
 vim.keymap.set("n", "<leader>bn", ":bnext<cr>")
 vim.keymap.set("n", "<leader>bp", ":bprevious<cr>")
 vim.keymap.set("n", "<leader>bd", ":bdelete<cr>")
-vim.keymap.set("n", "<leader>bf", function() vim.lsp.buf.format { async = true } end, { silent = true })
-
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
 
@@ -96,42 +90,19 @@ end
 function _G.mode_label()
   local m = vim.fn.mode()
   local map = {
-    n  = "normal", i  = "insert", v  = "visual",
+    n  = "normal",
+    i  = "insert",
+    v  = "visual",
     V  = "v-line", ["\22"] = "v-block", -- Ctrl-V
-    R  = "replace", c  = "command", t  = "terminal",
+    R  = "replace",
+    c  = "command",
+    t  = "terminal",
   }
   return map[m] or m
 end
 vim.opt.laststatus = 3
 vim.opt.showmode = false
 vim.opt.statusline = "%{v:lua.mode_label()} => %f %m%r%h%w %=%{v:lua.gitsigns_statusline()}[%l,%c] %p%% %y"
-
--- TOGGLING LSP
-local lsp_state_file = vim.fn.stdpath("config") .. "/lsp_enabled"
-local function is_lsp_enabled()
-  return vim.fn.filereadable(lsp_state_file) == 1
-end
-local function set_lsp_enabled(enabled)
-  if enabled then
-    vim.fn.writefile({ "1" }, lsp_state_file)
-  else
-    vim.fn.delete(lsp_state_file)
-  end
-end
-vim.keymap.set("n", "<leader>lt", function()
-  local enabled = is_lsp_enabled()
-  set_lsp_enabled(not enabled)
-
-  if enabled then
-    for _, client in pairs(vim.lsp.get_active_clients()) do
-      client.stop()
-    end
-    print("LSP disabled")
-  else
-    print("LSP enabled")
-    vim.cmd("edit")
-  end
-end, { desc = "Toggle LSP globally" })
 
 -- LAZY (PLUGINS) --
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -148,7 +119,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 local DARK_THEME = "gruber-darker"
-local LIGHT_THEME = "modus_operandi"
+local LIGHT_THEME = "modus_operandi" --local LIGHT_THEME = "gruvbox"
 
 -- plugin definitions
 require("lazy").setup({
@@ -158,7 +129,8 @@ require("lazy").setup({
     priority = 1000,
     config = function() vim.cmd("colorscheme " .. DARK_THEME) end,
   },
-  { "miikanissi/modus-themes.nvim", lazy = true },
+  { "miikanissi/modus-themes.nvim", priority = 1001, lazy = true },
+  { "ellisonleao/gruvbox.nvim", priority = 1002, lazy = true },
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
@@ -189,126 +161,75 @@ require("lazy").setup({
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/nvim-cmp",
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
-      "j-hui/fidget.nvim",
     },
 
     config = function()
-      if not is_lsp_enabled() then
-        return
-      end
-
-      local cmp = require("cmp")
       local lspconfig = require("lspconfig")
       local util = lspconfig.util
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      local opts = { noremap = true, silent = true }
-      vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
-      vim.keymap.set("n", "<leader>[d", vim.diagnostic.goto_prev, opts)
-      vim.keymap.set("n", "<leader>]d", vim.diagnostic.goto_next, opts)
-      vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+      -- ----------
+      vim.keymap.set("n", "gd", function()
+        local bufnr = vim.api.nvim_get_current_buf()
+        local clients = vim.lsp.get_clients({ bufnr = bufnr })
 
-      require("fidget").setup()
+        for _, client in ipairs(clients) do
+          if client:supports_method("textDocument/definition") then
+            vim.lsp.buf.definition()
+            return
+          end
+        end
+
+        vim.notify("No LSP definition provider attached for this buffer", vim.log.levels.WARN)
+      end, { noremap = true, silent = true, desc = "LSP go to definition" })
+
+      vim.keymap.set("n", "<leader>d", function()
+        vim.diagnostic.open_float(nil, { scope = "line", focus = false, border = "rounded" })
+      end, { noremap = true, silent = true, desc = "Show line diagnostics" })
+      -- ----------
+
+      local on_attach = function(_, bufnr)
+        local opts = { buffer = bufnr, noremap = true, silent = true }
+        vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
+        vim.keymap.set("i", "<C-k>", vim.lsp.buf.signature_help, opts)
+      end
+
       require("mason").setup()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "clangd", "pyright", "rust_analyzer", "zls", "tinymist", "texlab" },
+        ensure_installed = { "clangd", "rust_analyzer", "tinymist", "hls" }, -- , "pyright"
         handlers = {
           function(server_name)
-            lspconfig[server_name].setup { capabilities = capabilities }
+            lspconfig[server_name].setup({ on_attach = on_attach })
           end,
           ["clangd"] = function()
             lspconfig.clangd.setup({
+              on_attach = on_attach,
               filetypes = { "c", "cpp", "h", "hpp", "cxx", "cc" },
-              cmd = {
-                "clangd",
-                "--header-insertion=never",
-                "--query-driver=clang++",
-                "--compile-commands-dir=."
-              },
               root_dir = function(fname)
                 return util.root_pattern(
                   "compile_commands.json",
                   "build/compile_commands.json",
-                  "Makefile",
-                  "configure.ac",
+                  "Makefile"
+                )(fname) or util.path.dirname(fname)
+              end,
+            })
+          end,
+          ["hls"] = function()
+            lspconfig.hls.setup({
+              on_attach = on_attach,
+              single_file_support = true,
+              root_dir = function(fname)
+                return util.root_pattern(
+                  "hie.yaml",
+                  "stack.yaml",
+                  "cabal.project",
+                  "package.yaml",
+                  "*.cabal",
                   ".git"
                 )(fname) or util.path.dirname(fname)
               end,
             })
           end,
-          ["lua_ls"] = function()
-            lspconfig.lua_ls.setup {
-              settings = {
-                Lua = {
-                  diagnostics = { globals = { "vim" } },
-                }
-              }
-            }
-          end,
-          ["rust_analyzer"] = function()
-            lspconfig.rust_analyzer.setup {
-              settings = {
-                ["rust-analyzer"] = {
-                  diagnostics = {
-                    disabled = {
-                      "dead_code",
-                      "unreachable_code",
-                      "inactive_code",
-                      "unused",
-                    },
-                  },
-                  rustfmt = { extraArgs = { "+nightly" } },
-                },
-              },
-            }
-          end,
-          --["hls"] = function()
-          --  lspconfig.hls.setup {
-          --    filetypes = { "haskell", "lhaskell", "cabal" },
-          --    settings = {
-          --      haskell = {
-          --        formattingProvider = "ormolu",
-          --        maxCompletions = 40,
-          --        checkProject = true,
-          --        checkParents = "CheckOnSave",
-          --        sessionLoading = "singleComponent",
-          --      }
-          --    }
-          --  }
-          --end,
-          ["tinymist"] = function()
-            lspconfig.tinymist.setup {
-              settings = { formatterIndentSize = 2 },
-            }
-          end,
         }
-      })
-
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            require("luasnip").lsp_expand(args.body)
-          end,
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-p>"] = cmp.mapping.select_prev_item(),
-          ["<C-n>"] = cmp.mapping.select_next_item(),
-          ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-          ["<C-Space>"] = cmp.mapping.complete(),
-        }),
-        sources = {
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-          { name = "buffer" },
-        }
-      })
-
-      vim.diagnostic.config({
-        float = { border = "rounded", source = "always" },
       })
     end
   },

@@ -44,7 +44,7 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_SAVE_NO_DUPS
 
 # history
-HISTFILE=~/.cache/zsh/zsh_history
+HISTFILE=~/Dotfiles/zsh/zsh_history
 HISTSIZE=1000000
 SAVEHIST=10000
 setopt appendhistory
@@ -67,15 +67,15 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 
 # auto cd
 setopt auto_cd
 
-# ---------------------------------------
+# completions path
+fpath=(~/.zsh/completions $fpath)
 
+# ---------------------------------------
 alias ll="/bin/ls --color -slAG"
 alias cp="/bin/cp -iv"
 alias mv="/bin/mv -iv"
 alias rm="/bin/rm -v"
 alias q="exit"
 alias t="tree -C"
-alias open="xdg-open"
-alias ip="ip -c"
-alias ka="killall"
-alias element-desktop="element-desktop --password-store=gnome-libsecret"
+
+alias oc="opencode"
